@@ -167,35 +167,35 @@ Serein provides a set of subcommands for different functionalities. Here are som
 
 *   **Clean up Nix store:**
     ```bash
-    serein nix clean
+    serein clean
     ```
 *   **Build Home Manager configuration:**
     ```bash
-    serein nix home build /path/to/your/flake#home-manager-config
+    serein home build /path/to/your/flake#home-manager-config
     ```
 *   **List Home Manager generations:**
     ```bash
-    serein nix home gen
+    serein home gen
     ```
 *   **Delete Home Manager generations:**
     ```bash
-    serein nix home gen delete [generation-number]
+    serein home gen delete [generation-number]
     ```
 *   **Build NixOS system:**
     ```bash
-    serein nix sys build /path/to/your/flake#nixos-config
+    serein sys build /path/to/your/flake#nixos-config
     ```
 *   **List system generations:**
     ```bash
-    serein nix sys gen
+    serein sys gen
     ```
 *   **Delete system generations:**
     ```bash
-    serein nix sys gen delete [generation-number]
+    serein sys gen delete [generation-number]
     ```
 *   **Update Nix flakes:**
     ```bash
-    serein nix update
+    serein update
     ```
 
 ### Archive Operations
