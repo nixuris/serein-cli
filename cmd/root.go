@@ -24,10 +24,4 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.AddCommand(nixUpdateCmd)
-	rootCmd.AddCommand(nixSysCmd)
-	rootCmd.AddCommand(nixHomeCmd)
-	rootCmd.AddCommand(nixCleanCmd)
-	rootCmd.AddCommand(containerCmd)
-	rootCmd.AddCommand(convertCmd)
 }
