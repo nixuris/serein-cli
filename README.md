@@ -1,6 +1,6 @@
 # Serein CLI
 
-Serein is an opinionated command-line interface (CLI) tool designed to streamline various system management and utility tasks, particularly focusing on container management, music conversion, Nix system configurations, and archive operations.
+Serein is an opinionated command-line interface (CLI) tool designed to streamline various system management and utility tasks.
 
 ## Features
 
