@@ -87,6 +87,25 @@ If you manage your system or user environment with NixOS or Home Manager flakes,
     }
     ```
 
+### Binary Distribution (For Non-Nix Users)
+
+For users not using Nix, `serein` can be downloaded as a single executable binary.
+
+1.  **Download the latest release:**
+    Visit the [GitHub Releases page](https://github.com/nixuris/serein-cli/releases) and download the appropriate binary for your operating system and architecture.
+
+2.  **Make the binary executable:**
+    ```bash
+    chmod +x ./serein
+    ```
+
+3.  **Move the binary to your PATH (optional but recommended):**
+    ```bash
+    sudo mv ./serein /usr/local/bin/
+    ```
+
+**Important:** Regardless of how you install `serein`, you must ensure that all [Prerequisites](#prerequisites) are installed and available in your system's PATH for `serein`'s commands to function correctly.
+
 ## Usage
 
 Serein provides a set of subcommands for different functionalities. Here are some common usage examples:
