@@ -47,7 +47,7 @@ If you manage your system or user environment with NixOS or Home Manager flakes,
         serein-cli.inputs.nixpkgs.follows = "nixpkgs"; # Ensure consistent nixpkgs
       };
 
-      outputs = { self, nixpkgs, home-manager, serein-cli, ... }: {
+      outputs = { self, nixpkgs, home-manager, serein-cli, ... } @ inputs: {
         # ... your existing outputs
       };
     }
@@ -64,7 +64,7 @@ If you manage your system or user environment with NixOS or Home Manager flakes,
     {
       environment.systemPackages = with pkgs; [
         # Reference serein from the serein-cli flake input
-        config.inputs.serein-cli.packages.${pkgs.system}.default
+        inputs.serein-cli.packages.${pkgs.system}.default
       ];
 
       # ... other system configurations
@@ -80,7 +80,7 @@ If you manage your system or user environment with NixOS or Home Manager flakes,
     {
       home.packages = [
         # Reference serein from the serein-cli flake input
-        config.inputs.serein-cli.packages.${pkgs.system}.default
+        inputs.serein-cli.packages.${pkgs.system}.default
       ];
 
       # ... other Home Manager options
