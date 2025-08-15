@@ -14,27 +14,86 @@ Serein is an opinionated command-line interface (CLI) tool designed to streamlin
 
 Serein is built using Nix flakes, providing a reproducible and easy way to install the tool.
 
+### Quick Try (Run without Installation)
+
+If you want to quickly try `serein` without installing it permanently:
+
 1.  **Ensure Nix is installed** on your system with flake support enabled.
-2.  **Clone the repository:**
+2.  **Run Serein directly:**
 
     ```bash
-    git clone https://github.com/YOUR_USERNAME/serein-cli.git
-    cd serein-cli
+    nix run github:nixuris/serein-cli -- [args]
+    ```
+    (Replace `[args]` with any `serein` command and its arguments, e.g., `nix run github:nixuris/serein-cli -- music mp3 /path/to/dir`)
+
+### For NixOS/Home Manager Configurations
+
+If you manage your system or user environment with NixOS or Home Manager flakes, you can add `serein-cli` as an input to your configuration:
+
+1.  **Add `serein-cli` as an input in your `flake.nix`:**
+
+    ```nix
+    # In your flake.nix (e.g., /etc/nixos/flake.nix or ~/.config/home-manager/flake.nix)
+    {
+      description = "Your personal NixOS/Home Manager configuration";
+
+      inputs = {
+        nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable"; # Or whatever nixpkgs they use
+        home-manager.url = "github:nix-community/home-manager";
+        home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+        # Add serein-cli flake as an input
+        serein-cli.url = "github:nixuris/serein-cli";
+        serein-cli.inputs.nixpkgs.follows = "nixpkgs"; # Ensure consistent nixpkgs
+      };
+
+      outputs = { self, nixpkgs, home-manager, serein-cli, ... }: {
+        # ... your existing outputs
+      };
+    }
     ```
 
-3.  **Build and install Serein:**
+2.  **Install `serein` in your NixOS or Home Manager configuration:**
 
-    ```bash
-    nix profile install .#
+    **Option A: Install System-Wide (NixOS Configuration)**
+
+    ```nix
+    # In your configuration.nix (or a NixOS module)
+    { config, pkgs, lib, ... }:
+
+    {
+      environment.systemPackages = with pkgs; [
+        # Reference serein from the serein-cli flake input
+        config.inputs.serein-cli.packages.${pkgs.system}.default
+      ];
+
+      # ... other system configurations
+    }
     ```
 
-    This command will build the `serein` executable and add it to your user's Nix profile, making it available in your PATH.
+    **Option B: Install via Home Manager (User-Specific)**
+
+    ```nix
+    # In your Home Manager configuration (e.g., ~/.config/home-manager/home.nix)
+    { config, pkgs, ... }:
+
+    {
+      home.packages = [
+        # Reference serein from the serein-cli flake input
+        config.inputs.serein-cli.packages.${pkgs.system}.default
+      ];
+
+      # ... other Home Manager options
+    }
+    ```
 
 ## Usage
 
 Serein provides a set of subcommands for different functionalities. Here are some common usage examples:
 
 ### General Commands
+
+
 
 *   **Display help:**
     ```bash
