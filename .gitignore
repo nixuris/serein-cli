@@ -1,0 +1,8 @@
+result
+.direnv/
+*.drv
+*.nix.d/
+*.log
+conversion_errors.log
+serein
+.venv/
