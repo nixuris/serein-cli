@@ -152,11 +152,11 @@ Serein provides a set of subcommands for different functionalities. Here are som
 
 *   **Convert audio files to MP3:**
     ```bash
-    serein music mp3 /path/to/music/directory
+    serein music convert mp3 /path/to/music/directory
     ```
 *   **Format M3U playlist:**
     ```bash
-    serein music playlist /path/to/playlist.m3u
+    serein music convert playlist /path/to/playlist.m3u
     ```
 *   **Download YouTube audio:**
     ```bash
