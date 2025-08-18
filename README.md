@@ -9,6 +9,7 @@ Serein is an opinionated command-line interface (CLI) tool designed to streamlin
 *   **Nix System Management:** Manage NixOS system and Home Manager configurations, including building, listing, and deleting generations, and updating flakes.
 *   **Archive Operations:** Compress and extract files using 7z, with support for password protection.
 *   **YouTube Audio Download:** Download audio from YouTube URLs using `yt-dlp` with embedded thumbnails and metadata.
+*   **Git Helper:** A collection of aliases for common Git commands.
 
 ## Installation
 
@@ -108,7 +109,7 @@ For users not using Nix, `serein` can be downloaded as a single executable binar
 
 ## Usage
 
-Serein provides a set of subcommands for different functionalities. Here are some common usage examples:
+Serein provides a set of subcommands for different functionalities. For detailed usage, including all flags and examples, please refer to the [full documentation](docs/docs.md).
 
 ### General Commands
 
@@ -118,112 +119,15 @@ Serein provides a set of subcommands for different functionalities. Here are som
     serein [command] --help
     ```
 
-### Container Management
-
-*   **List all containers:**
-    ```bash
-    serein container list
-    ```
-*   **Build a container image:**
-    ```bash
-    serein container build [image-name] /path/to/Dockerfile
-    ```
-*   **Run a shell in a container:**
-    ```bash
-    serein container shell [container-name]
-    serein container shell --temp [container-name] # Temporary container
-    ```
-*   **Run a container in the background (silent):**
-    ```bash
-    serein container silent [container-name]
-    serein container silent --mount [container-name] # Mount current directory
-    serein container silent --usb [container-name] # Passthrough USB devices
-    serein container silent --ip [container-name] # Passthrough usbmuxd for iPhone
-    ```
-*   **Manage iOS devices with containers:**
-    ```bash
-    serein container ios --sidestore # Run sidestore container
-    serein container ios --pair      # Run ipairing container
-    ```
-
-### Music Utilities
-
-*   **Convert audio files to MP3:**
-    ```bash
-    serein music convert mp3 /path/to/music/directory
-    ```
-*   **Format M3U playlist:**
-    ```bash
-    serein music convert playlist /path/to/playlist.m3u
-    ```
-*   **Download YouTube audio:**
-    ```bash
-    serein music download "<youtube-url>"
-    ```
-
-### Nix System Management
-
-*   **Clean up Nix store:**
-    ```bash
-    serein nix clean
-    ```
-*   **Build Home Manager configuration:**
-    ```bash
-    serein nix home build /path/to/your/flake#home-manager-config
-    ```
-*   **List Home Manager generations:**
-    ```bash
-    serein nix home gen
-    ```
-*   **Delete Home Manager generations:**
-    ```bash
-    serein nix home gen delete [generation-number]
-    ```
-*   **Build NixOS system:**
-    ```bash
-    serein nix sys build /path/to/your/flake#nixos-config
-    ```
-*   **List system generations:**
-    ```bash
-    serein nix sys gen
-    ```
-*   **Delete system generations:**
-    ```bash
-    serein nix sys gen delete [generation-number]
-    ```
-*   **Update Nix flakes:**
-    ```bash
-    serein nix update
-    ```
-
-### Archive Operations
-
-*   **Zip files:**
-    ```bash
-    serein archive zip myarchive.zip file1.txt file2.jpg
-    serein archive zip myarchive.7z myfolder/
-    ```
-*   **Zip files with password:**
-    ```bash
-    serein archive zip password myarchive.zip file.txt
-    ```
-*   **Unzip files:**
-    ```bash
-    serein archive unzip myarchive.zip
-    ```
-*   **Unzip files with password:**
-    ```bash
-    serein archive unzip password mypassword myarchive.zip
-    ```
-
 ## Prerequisites
 
-Serein relies on several external tools being available in your system's PATH:
+Serein currently leverages on several external tools being available in your system's PATH (whether having these tools or not is not mandatory):
 
 *   **`podman`**: For container management commands.
 *   **`ffmpeg`**: For audio conversion.
 *   **`yt-dlp`**: For YouTube audio downloads.
 *   **`7z` (p7zip)**: For archive operations.
+*   **`git`**: For git commands.
 
 ## Contributing
 
