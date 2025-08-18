@@ -105,8 +105,6 @@ For users not using Nix, `serein` can be downloaded as a single executable binar
     sudo mv ./serein /usr/local/bin/
     ```
 
-**Important:** Regardless of how you install `serein`, you must ensure that all [Prerequisites](#prerequisites) are installed and available in your system's PATH for `serein`'s commands to function correctly.
-
 ## Usage
 
 Serein provides a set of subcommands for different functionalities. For detailed usage, including all flags and examples, please refer to the [full documentation](docs/docs.md).
