@@ -22,6 +22,10 @@ var gitCmd = &cobra.Command{
 	Use:   "git",
 	Short: "Git helper commands",
 	Long:  `A set of helper commands to simplify common Git operations.`,
+	DisableFlagParsing: true,
+	Run: func(cmd *cobra.Command, args []string) {
+		runGitCommand("git", args...)
+	},
 }
 
 var gitSyncCmd = &cobra.Command{
