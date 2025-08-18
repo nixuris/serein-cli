@@ -24,7 +24,7 @@ If you want to quickly try `serein` without installing it permanently:
     ```bash
     nix run github:nixuris/serein-cli -- [args]
     ```
-    (Replace `[args]` with any `serein` command and its arguments, e.g., `nix run github:nixuris/serein-cli -- music mp3 /path/to/dir`)
+    (Replace `[args]` with any `serein` command and its arguments, e.g., `nix run github:nixuris/serein-cli -- music convert mp3 /path/to/dir`)
 
 ### For NixOS/Home Manager Configurations
 
@@ -112,8 +112,6 @@ Serein provides a set of subcommands for different functionalities. Here are som
 
 ### General Commands
 
-
-
 *   **Display help:**
     ```bash
     serein --help
@@ -167,55 +165,55 @@ Serein provides a set of subcommands for different functionalities. Here are som
 
 *   **Clean up Nix store:**
     ```bash
-    serein clean
+    serein nix clean
     ```
 *   **Build Home Manager configuration:**
     ```bash
-    serein home build /path/to/your/flake#home-manager-config
+    serein nix home build /path/to/your/flake#home-manager-config
     ```
 *   **List Home Manager generations:**
     ```bash
-    serein home gen
+    serein nix home gen
     ```
 *   **Delete Home Manager generations:**
     ```bash
-    serein home gen delete [generation-number]
+    serein nix home gen delete [generation-number]
     ```
 *   **Build NixOS system:**
     ```bash
-    serein sys build /path/to/your/flake#nixos-config
+    serein nix sys build /path/to/your/flake#nixos-config
     ```
 *   **List system generations:**
     ```bash
-    serein sys gen
+    serein nix sys gen
     ```
 *   **Delete system generations:**
     ```bash
-    serein sys gen delete [generation-number]
+    serein nix sys gen delete [generation-number]
     ```
 *   **Update Nix flakes:**
     ```bash
-    serein update
+    serein nix update
     ```
 
 ### Archive Operations
 
 *   **Zip files:**
     ```bash
-    serein zip myarchive.zip file1.txt file2.jpg
-    serein zip myarchive.7z myfolder/
+    serein archive zip myarchive.zip file1.txt file2.jpg
+    serein archive zip myarchive.7z myfolder/
     ```
 *   **Zip files with password:**
     ```bash
-    serein zip password myarchive.zip file.txt
+    serein archive zip password myarchive.zip file.txt
     ```
 *   **Unzip files:**
     ```bash
-    serein unzip myarchive.zip
+    serein archive unzip myarchive.zip
     ```
 *   **Unzip files with password:**
     ```bash
-    serein unzip password mypassword myarchive.zip
+    serein archive unzip password mypassword myarchive.zip
     ```
 
 ## Prerequisites
