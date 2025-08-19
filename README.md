@@ -10,6 +10,7 @@ Serein is an opinionated command-line interface (CLI) tool designed to streamlin
 *   **Archive Operations:** Compress and extract files using 7z, with support for password protection.
 *   **YouTube Audio Download:** Download audio from YouTube URLs using `yt-dlp` with embedded thumbnails and metadata.
 *   **Git Helper:** A collection of aliases for common Git commands.
+*   **Todo Management:** An interactive terminal-based application for managing todo lists with contexts, priorities, and more.
 
 ## Installation
 
@@ -93,7 +94,7 @@ If you manage your system or user environment with NixOS or Home Manager flakes,
 For users not using Nix, `serein` can be downloaded as a single executable binary.
 
 1.  **Download the latest release:**
-    Visit the [GitHub Releases page](https://github.com/nixuris/serein-cli/releases) and download the appropriate binary for your operating system and architecture.
+    Visit the [GitHub Releases page](https://github.com/nixuris/serein-cli/releases) and download the wanted binary.
 
 2.  **Make the binary executable:**
     ```bash
@@ -116,6 +117,14 @@ Serein provides a set of subcommands for different functionalities. For detailed
     serein --help
     serein [command] --help
     ```
+
+### Todo Command
+
+*   **Launch the interactive todo application:**
+    ```bash
+    serein todo
+    ```
+    For more details on features and keybindings, refer to the [Todo Documentation](docs/todo.md).
 
 ## Prerequisites
 
