@@ -15,11 +15,9 @@
           pname = "serein";
           version = "0.1.0";
           src = ./.;
-          vendorHash = "sha256-PYoO3JMlIbtF8sHm+pO2RQN6nJKIc001toGY7/b+t0I=";
-          
+          vendorHash = "sha256-/A4u7uTc/fR1A1J8K4Mjo7oGoJYz76XFSs70Pmfw+K0=";
           # Add installShellFiles to build inputs
           nativeBuildInputs = [ pkgs.installShellFiles ];
-          
           # Install fish completion directly in flake
           postInstall = ''
             cat > serein.fish << 'EOF'
