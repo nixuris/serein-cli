@@ -15,7 +15,7 @@
           pname = "serein";
           version = "0.1.0";
           src = ./.;
-          vendorHash = "sha256-/A4u7uTc/fR1A1J8K4Mjo7oGoJYz76XFSs70Pmfw+K0=";
+          vendorHash = "sha256-+gNaABMs7XZbOFlvLQA5KtnZrBHDWgBtH6W29KMeBU0=";
           # Add installShellFiles to build inputs
           nativeBuildInputs = [ pkgs.installShellFiles ];
           # Install fish completion directly in flake
