@@ -26,6 +26,9 @@
 *   **Update Nix flakes:**
     `serein nix update`
 
+*   **Format Alejandra style:**
+    `serein nix lint`
+
 ### Examples
 
 *   **Clean up the Nix store:**
