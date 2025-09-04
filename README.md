@@ -106,6 +106,22 @@ For users not using Nix, `serein` can be downloaded as a single executable binar
     sudo mv ./serein /usr/local/bin/
     ```
 
+#### Manual Installation
+
+1.  **Clone the repo:**
+
+    ```bash
+    git clone --depth=1 https://github.com/nixuris/serein-cli
+    cd serein-cli
+    ```
+
+2.  **Install Dependencies and Build:**
+
+    ```bash
+    go mod tidy
+    go build .
+    ```
+
 ## Usage
 
 Serein provides a set of subcommands for different functionalities. For detailed usage, including all flags and examples, please refer to the [full documentation](docs/docs.md).
