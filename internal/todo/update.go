@@ -22,13 +22,16 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.ErrorMessage = ""
 
 		// Handle input mode
-		if m.ViewMode == InputView {
-			return m.UpdateInputMode(msg)
-		} else if m.ViewMode == DateInputView {
-			return m.UpdateDateInputMode(msg)
-		} else if m.ViewMode == RemoveTagView {
-			return m.UpdateRemoveTagMode(msg)
-		}
+		
+switch m.ViewMode {
+case InputView:
+    return m.UpdateInputMode(msg)
+case DateInputView:
+    return m.UpdateDateInputMode(msg)
+case RemoveTagView:
+    return m.UpdateRemoveTagMode(msg)
+}
+
 
 		// Handle different view modes
 		switch m.ViewMode {

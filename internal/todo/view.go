@@ -161,11 +161,11 @@ func (m Model) RenderTask(task Task, selected, moving bool) string {
 	}
 
 	if selected {
-		style = style.Copy().Background(lipgloss.Color("#313244"))
+		style = style.Background(lipgloss.Color("#313244"))
 	}
 
 	if moving {
-		style = style.Copy().Bold(true)
+		style = style.Bold(true)
 	}
 
 	return priority + style.Render(text)
