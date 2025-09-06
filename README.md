@@ -14,8 +14,6 @@ Serein is an opinionated command-line interface (CLI) tool designed to streamlin
 
 ## Installation
 
-Serein is built using Nix flakes, providing a reproducible and easy way to install the tool.
-
 ### Quick Try (Run without Installation)
 
 If you want to quickly try `serein` without installing it permanently:

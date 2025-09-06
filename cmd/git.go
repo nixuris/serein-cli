@@ -4,13 +4,14 @@ import (
 	"github.com/spf13/cobra"
 	"serein/internal/git"
 )
+
 func init() {
 
 	rootCmd.AddCommand(gitCmd)
 	git.RegisterBasicGitCommands(gitCmd)
 	gitCmd.AddCommand(git.TagCmd)
-        gitCmd.AddCommand(git.BranchCmd)
-        gitCmd.AddCommand(git.CommitCmd)
+	gitCmd.AddCommand(git.BranchCmd)
+	gitCmd.AddCommand(git.CommitCmd)
 
 }
 

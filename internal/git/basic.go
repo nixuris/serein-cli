@@ -5,12 +5,12 @@ import (
 )
 
 func RegisterBasicGitCommands(parent *cobra.Command) {
-    parent.AddCommand(gitSyncCmd)
-    parent.AddCommand(gitStageCmd)
-    parent.AddCommand(gitUnstageCmd)
-    parent.AddCommand(gitUndoCmd)
-    parent.AddCommand(gitChangesCmd)
-    parent.AddCommand(gitStatusCmd)
+	parent.AddCommand(gitSyncCmd)
+	parent.AddCommand(gitStageCmd)
+	parent.AddCommand(gitUnstageCmd)
+	parent.AddCommand(gitUndoCmd)
+	parent.AddCommand(gitChangesCmd)
+	parent.AddCommand(gitStatusCmd)
 }
 
 var gitSyncCmd = &cobra.Command{

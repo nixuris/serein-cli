@@ -5,9 +5,9 @@ import (
 )
 
 func BasicNixCmds(parent *cobra.Command) {
-    parent.AddCommand(nixUpdateCmd)
-    parent.AddCommand(nixCleanCmd)
-    parent.AddCommand(nixLintCmd)
+	parent.AddCommand(nixUpdateCmd)
+	parent.AddCommand(nixCleanCmd)
+	parent.AddCommand(nixLintCmd)
 }
 
 var nixUpdateCmd = &cobra.Command{
@@ -24,7 +24,7 @@ var nixCleanCmd = &cobra.Command{
 	Short: "Clean up Nix store",
 	Long:  `Clean up Nix store with sudo nix-collect-garbage -d.`,
 	Run: func(cmd *cobra.Command, args []string) {
-    		runNixCommand("sudo", "nix-collect-garbage", "-d")
+		runNixCommand("sudo", "nix-collect-garbage", "-d")
 	},
 }
 
@@ -33,6 +33,6 @@ var nixLintCmd = &cobra.Command{
 	Short: "Linter For Nix",
 	Long:  `Format Nix Files With Alejandra.`,
 	Run: func(cmd *cobra.Command, args []string) {
-    		runNixCommand("nix-shell", "-p", "alejandra", "--run", "alejandra .")
+		runNixCommand("nix-shell", "-p", "alejandra", "--run", "alejandra .")
 	},
 }

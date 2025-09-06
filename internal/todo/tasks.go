@@ -2,10 +2,10 @@ package todo
 
 import (
 	"fmt"
+	"sort"
+	"strconv"
 	"strings"
 	"time"
-	"strconv"
-	"sort"
 )
 
 // Helper methods
@@ -156,7 +156,7 @@ func (m *Model) AddTask(taskText string) {
 	}
 	m.Tasks = append(m.Tasks, newTask)
 	m.NextID++
-	
+
 	// Move selection to new task
 	filtered := m.GetFilteredTasks()
 	m.SelectedIndex = len(filtered) - 1
@@ -373,10 +373,6 @@ func (m *Model) SetDueDateForCurrentTask(dateStr string) {
 	}
 }
 
-
-
-
-
 func (m *Model) UpdateContexts() {
 	// Collect contexts from tasks
 	taskContexts := make(map[string]bool)
@@ -413,21 +409,21 @@ func (m *Model) UpdateContexts() {
 
 // Helper function to check if a string is in a slice
 func (m *Model) Contains(s []string, e string) bool {
-    for _, a := range s {
-        if a == e {
-            return true
-        }
-    }
-    return false
+	for _, a := range s {
+		if a == e {
+			return true
+		}
+	}
+	return false
 }
 
 func (m *Model) SaveStateForUndo() {
 	// Deep copy current tasks
 	stateCopy := make([]Task, len(m.Tasks))
 	copy(stateCopy, m.Tasks)
-	
+
 	m.History = append(m.History, stateCopy)
-	
+
 	// Limit history size
 	if len(m.History) > m.MaxHistory {
 		m.History = m.History[1:]
@@ -443,10 +439,10 @@ func (m *Model) Undo() {
 	// Restore previous state
 	m.Tasks = m.History[len(m.History)-1]
 	m.History = m.History[:len(m.History)-1]
-	
+
 	// Update contexts and ensure current context is valid
 	m.UpdateContexts()
-	
+
 	// Reset selection
 	m.SelectedIndex = 0
 }

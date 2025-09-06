@@ -5,12 +5,12 @@ import (
 )
 
 func init() {
-    CommitCmd.AddCommand(CommitPushCmd)
-    CommitCmd.AddCommand(CommitListCmd)
-    CommitCmd.AddCommand(CommitUndoCmd)
-    CommitCmd.AddCommand(CommitDeleteCmd)
-    CommitCmd.AddCommand(CommitChangesCmd)
-    CommitCmd.AddCommand(CommitCompareCmd)
+	CommitCmd.AddCommand(CommitPushCmd)
+	CommitCmd.AddCommand(CommitListCmd)
+	CommitCmd.AddCommand(CommitUndoCmd)
+	CommitCmd.AddCommand(CommitDeleteCmd)
+	CommitCmd.AddCommand(CommitChangesCmd)
+	CommitCmd.AddCommand(CommitCompareCmd)
 }
 
 var CommitCmd = &cobra.Command{

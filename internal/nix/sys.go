@@ -6,8 +6,8 @@ import (
 
 func init() {
 	SysCmd.AddCommand(SysBuildCmd)
-    	SysCmd.AddCommand(SysGenCmd)
-    	SysCmd.AddCommand(SysGenDeleteCmd)
+	SysCmd.AddCommand(SysGenCmd)
+	SysCmd.AddCommand(SysGenDeleteCmd)
 }
 
 var SysCmd = &cobra.Command{
@@ -32,7 +32,7 @@ var SysGenCmd = &cobra.Command{
 	Short: "List system generations",
 	Long:  `List system generations with sudo nix-env --list-generations --profile /nix/var/nix/profiles/system.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		runNixCommand("sudo", "nix-env", "--list-generations", "--profile", "/nix/var/nix/profiles/system")	
+		runNixCommand("sudo", "nix-env", "--list-generations", "--profile", "/nix/var/nix/profiles/system")
 	},
 }
 

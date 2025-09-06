@@ -28,13 +28,13 @@ func Initialize() Model {
 	}
 
 	m := Model{
-		TextInput:      ti,
-		DateInputs:     dateInputs,
-		KeyMap:         DefaultKeyMap(),
-		Help:           help.New(),
-		ConfigPath:     configPath,
-		MaxHistory:     50,
-		ViewMode:       NormalView,
+		TextInput:  ti,
+		DateInputs: dateInputs,
+		KeyMap:     DefaultKeyMap(),
+		Help:       help.New(),
+		ConfigPath: configPath,
+		MaxHistory: 50,
+		ViewMode:   NormalView,
 	}
 
 	m.LoadConfig()

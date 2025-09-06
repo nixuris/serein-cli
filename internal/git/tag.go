@@ -5,10 +5,10 @@ import (
 )
 
 func init() {
-    TagCmd.AddCommand(tagDeleteLocalCmd)
-    TagCmd.AddCommand(tagCreateCmd)
-    TagCmd.AddCommand(tagWipeCmd)
-    TagCmd.AddCommand(tagDeleteRemoteCmd)
+	TagCmd.AddCommand(tagDeleteLocalCmd)
+	TagCmd.AddCommand(tagCreateCmd)
+	TagCmd.AddCommand(tagWipeCmd)
+	TagCmd.AddCommand(tagDeleteRemoteCmd)
 }
 
 var TagCmd = &cobra.Command{

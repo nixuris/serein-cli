@@ -6,8 +6,8 @@ import (
 
 func init() {
 	HomeCmd.AddCommand(HomeBuildCmd)
-    	HomeCmd.AddCommand(HomeGenCmd)
-    	HomeCmd.AddCommand(HomeGenDeleteCmd)
+	HomeCmd.AddCommand(HomeGenCmd)
+	HomeCmd.AddCommand(HomeGenDeleteCmd)
 }
 
 var HomeCmd = &cobra.Command{

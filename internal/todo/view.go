@@ -11,58 +11,58 @@ import (
 var (
 	// Base styles
 	baseStyle = lipgloss.NewStyle().
-		PaddingLeft(1).
-		PaddingRight(1)
+			PaddingLeft(1).
+			PaddingRight(1)
 
 	// Title styles
 	titleStyle = lipgloss.NewStyle().
-		Foreground(lipgloss.Color("#FFFDF5")).
-		Background(lipgloss.Color("#25A065")).
-		Padding(0, 1).
-		Bold(true)
+			Foreground(lipgloss.Color("#FFFDF5")).
+			Background(lipgloss.Color("#25A065")).
+			Padding(0, 1).
+			Bold(true)
 
 	// Task styles
 	taskStyle = lipgloss.NewStyle().
-		PaddingLeft(2)
+			PaddingLeft(2)
 
 	selectedTaskStyle = lipgloss.NewStyle().
-		Foreground(lipgloss.Color("#EE6FF8")).
-		Background(lipgloss.Color("#313244")).
-		PaddingLeft(2)
+				Foreground(lipgloss.Color("#EE6FF8")).
+				Background(lipgloss.Color("#313244")).
+				PaddingLeft(2)
 
 	completedTaskStyle = lipgloss.NewStyle().
-		Foreground(lipgloss.Color("#A6E3A1")).
-		Strikethrough(true)
+				Foreground(lipgloss.Color("#A6E3A1")).
+				Strikethrough(true)
 
 	// Priority styles
 	highPriorityStyle = lipgloss.NewStyle().
-		Foreground(lipgloss.Color("#F38BA8"))
+				Foreground(lipgloss.Color("#F38BA8"))
 
 	mediumPriorityStyle = lipgloss.NewStyle().
-		Foreground(lipgloss.Color("#FAB387"))
+				Foreground(lipgloss.Color("#FAB387"))
 
 	lowPriorityStyle = lipgloss.NewStyle().
-		Foreground(lipgloss.Color("#F9E2AF"))
+				Foreground(lipgloss.Color("#F9E2AF"))
 
 	// Context styles
 	contextStyle = lipgloss.NewStyle().
-		Foreground(lipgloss.Color("#89B4FA")).
-		Bold(true)
+			Foreground(lipgloss.Color("#89B4FA")).
+			Bold(true)
 
 	// Error style
 	errorStyle = lipgloss.NewStyle().
-		Foreground(lipgloss.Color("#F38BA8")).
-		Bold(true)
+			Foreground(lipgloss.Color("#F38BA8")).
+			Bold(true)
 
 	// Help style
 	helpStyle = lipgloss.NewStyle().
-		Foreground(lipgloss.Color("#6C7086"))
+			Foreground(lipgloss.Color("#6C7086"))
 
 	// Input styles
 	inputStyle = lipgloss.NewStyle().
-		Border(lipgloss.RoundedBorder()).
-		Padding(1).
-		Margin(1)
+			Border(lipgloss.RoundedBorder()).
+			Padding(1).
+			Margin(1)
 )
 
 // View implements tea.Model
@@ -220,7 +220,7 @@ func (m Model) RenderRemoveTagView() string {
 // RenderKanbanView renders the kanban board
 func (m Model) RenderKanbanView() string {
 	var content strings.Builder
-	
+
 	content.WriteString(titleStyle.Render("Kanban View (ESC to return)") + "\n\n")
 
 	if len(m.Contexts) == 0 {
@@ -238,7 +238,7 @@ func (m Model) RenderKanbanView() string {
 	var columns []string
 	for _, context := range m.Contexts {
 		var column strings.Builder
-		
+
 		// Column header
 		header := contextStyle.Render(context)
 		column.WriteString(header + "\n")
@@ -286,7 +286,7 @@ func (m Model) RenderKanbanView() string {
 // RenderStatsView renders the statistics view
 func (m Model) RenderStatsView() string {
 	var content strings.Builder
-	
+
 	content.WriteString(titleStyle.Render("Statistics (ESC to return)") + "\n\n")
 
 	// Overall stats
@@ -323,7 +323,7 @@ func (m Model) RenderStatsView() string {
 			ctxRate = float64(ctxCompleted) / float64(ctxTotal) * 100
 		}
 
-		content.WriteString(fmt.Sprintf("  %s: %d/%d (%.1f%%)\n", 
+		content.WriteString(fmt.Sprintf("  %s: %d/%d (%.1f%%)\n",
 			contextStyle.Render(context), ctxCompleted, ctxTotal, ctxRate))
 	}
 

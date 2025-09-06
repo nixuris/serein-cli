@@ -8,7 +8,7 @@ import (
 	"github.com/charmbracelet/bubbletea"
 )
 
-// Update implements tea.Model  
+// Update implements tea.Model
 func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case tea.WindowSizeMsg:
@@ -22,16 +22,15 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.ErrorMessage = ""
 
 		// Handle input mode
-		
-switch m.ViewMode {
-case InputView:
-    return m.UpdateInputMode(msg)
-case DateInputView:
-    return m.UpdateDateInputMode(msg)
-case RemoveTagView:
-    return m.UpdateRemoveTagMode(msg)
-}
 
+		switch m.ViewMode {
+		case InputView:
+			return m.UpdateInputMode(msg)
+		case DateInputView:
+			return m.UpdateDateInputMode(msg)
+		case RemoveTagView:
+			return m.UpdateRemoveTagMode(msg)
+		}
 
 		// Handle different view modes
 		switch m.ViewMode {
@@ -59,7 +58,7 @@ func (m Model) UpdateInputMode(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 	case key.Matches(msg, m.KeyMap.Enter):
 		input := strings.TrimSpace(m.TextInput.Value())
 		m.TextInput.SetValue("")
-		
+
 		switch m.InputMode {
 		case AddTaskInput:
 			if input != "" {
@@ -92,7 +91,7 @@ func (m Model) UpdateInputMode(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 				m.DeleteContext()
 			}
 		}
-		
+
 		m.ViewMode = NormalView
 		return m, nil
 	}
@@ -293,7 +292,7 @@ func (m Model) UpdateKanbanView(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 	return m, nil
 }
 
-// UpdateStatsView handles stats view updates  
+// UpdateStatsView handles stats view updates
 func (m Model) UpdateStatsView(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 	switch {
 	case key.Matches(msg, m.KeyMap.Back), key.Matches(msg, m.KeyMap.Quit), key.Matches(msg, m.KeyMap.StatsView):

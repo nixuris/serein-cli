@@ -5,16 +5,16 @@ import (
 )
 
 func init() {
-    BranchCmd.AddCommand(gitBranchListCmd)
-    BranchCmd.AddCommand(gitBranchCreateCmd)
-    BranchCmd.AddCommand(gitBranchSwitchCmd)
-    BranchCmd.AddCommand(gitBranchDeleteLocalCmd)
-    BranchCmd.AddCommand(gitBranchDeleteRemoteCmd)
+	BranchCmd.AddCommand(gitBranchListCmd)
+	BranchCmd.AddCommand(gitBranchCreateCmd)
+	BranchCmd.AddCommand(gitBranchSwitchCmd)
+	BranchCmd.AddCommand(gitBranchDeleteLocalCmd)
+	BranchCmd.AddCommand(gitBranchDeleteRemoteCmd)
 }
 
 var BranchCmd = &cobra.Command{
-    Use:   "branch",
-    Short: "Git branch commands",
+	Use:   "branch",
+	Short: "Git branch commands",
 }
 
 var gitBranchListCmd = &cobra.Command{

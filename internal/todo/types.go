@@ -44,11 +44,11 @@ const (
 // Model represents the application state
 type Model struct {
 	// Core state
-	Tasks           []Task
-	Contexts        []string
-	CurrentContext  string
-	SelectedIndex   int
-	NextID          int
+	Tasks          []Task
+	Contexts       []string
+	CurrentContext string
+	SelectedIndex  int
+	NextID         int
 
 	// View state
 	ViewMode        ViewMode
@@ -57,7 +57,7 @@ type Model struct {
 	PrevIndex       int
 	MovingMode      bool
 	MovingTaskIndex int
-	
+
 	// Input handling
 	TextInput       textinput.Model
 	DateInputs      []textinput.Model
@@ -65,22 +65,22 @@ type Model struct {
 	RemoveTagIndex  int
 	RemoveTagChecks []bool
 	InputPrompt     string
-	
+
 	// UI state
-	WindowWidth     int
-	WindowHeight    int
-	ErrorMessage    string
-	
+	WindowWidth  int
+	WindowHeight int
+	ErrorMessage string
+
 	// History for undo
-	History         [][]Task
-	MaxHistory      int
-	
+	History    [][]Task
+	MaxHistory int
+
 	// Keybindings
-	KeyMap          KeyMap
-	Help            help.Model
-	
+	KeyMap KeyMap
+	Help   help.Model
+
 	// Config
-	ConfigPath      string
+	ConfigPath string
 }
 
 // KeyMap defines key bindings
