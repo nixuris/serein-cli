@@ -37,12 +37,13 @@ var HomeGenCmd = &cobra.Command{
 }
 
 var HomeGenDeleteCmd = &cobra.Command{
-	Use:   "delete [number]",
+	Use:   "delete [numbers...]",
 	Short: "Delete home-manager generations",
-	Long:  `Delete home-manager generations with home-manager remove-generations.`,
-	Args:  cobra.ExactArgs(1),
+	Long:  `Delete home-manager generations with home-manager remove-generations. Can accept multiple numbers and ranges (e.g., 1-10).`,
+	Args:  cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		generation := args[0]
-		runNixCommand("home-manager", "remove-generations", generation)
+		generations := parseGenerations(args)
+		cmdArgs := append([]string{"remove-generations"}, generations...)
+		runNixCommand("home-manager", cmdArgs...)
 	},
 }

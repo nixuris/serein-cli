@@ -14,6 +14,8 @@
 *   **Delete Home Manager generations:**
     `serein nix home gen delete [number]`
 
+    `serein nix home gen delete [number1]-[number2]` Delete range from home manager generation number1 to number2.
+
 *   **Build a NixOS system:**
     `serein nix sys build [path/to/flake]`
 
@@ -22,6 +24,8 @@
 
 *   **Delete system generations:**
     `serein nix sys gen delete [number]`
+    
+    `serein nix sys gen delete [number1]-[number2]` Delete range of system generations from number1 to number2.
 
 *   **Update Nix flakes:**
     `serein nix update`
@@ -46,9 +50,9 @@
     serein nix home gen
     ```
 
-*   **Delete a specific Home Manager generation (e.g., generation 5):**
+*   **Delete Home Manager generations (e.g., generation 5 to 10):**
     ```bash
-    serein nix home gen delete 5
+    serein nix home gen delete 5-10
     ```
 
 *   **Build a NixOS system from a flake:**

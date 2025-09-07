@@ -37,12 +37,13 @@ var SysGenCmd = &cobra.Command{
 }
 
 var SysGenDeleteCmd = &cobra.Command{
-	Use:   "delete [number]",
+	Use:   "delete [numbers...]",
 	Short: "Delete system generations",
-	Long:  `Delete system generations with sudo nix-env --profile /nix/var/nix/profiles/system --delete-generations.`,
-	Args:  cobra.ExactArgs(1),
+	Long:  `Delete system generations with sudo nix-env --profile /nix/var/nix/profiles/system --delete-generations. Can accept multiple numbers and ranges (e.g., 1-10).`,
+	Args:  cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		generation := args[0]
-		runNixCommand("sudo", "nix-env", "--profile", "/nix/var/nix/profiles/system", "--delete-generations", generation)
+		generations := parseGenerations(args)
+		cmdArgs := append([]string{"nix-env", "--profile", "/nix/var/nix/profiles/system", "--delete-generations"}, generations...)
+		runNixCommand("sudo", cmdArgs...)
 	},
 }
