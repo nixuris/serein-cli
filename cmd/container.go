@@ -8,9 +8,7 @@ import (
 func init() {
 	rootCmd.AddCommand(containerCmd)
 
-	containerCmd.AddCommand(container.ContainerBuildCmd)
-	containerCmd.AddCommand(container.ContainerDeleteCmd)
-	containerCmd.AddCommand(container.ContainerListCmd)
+	container.StandaloneFlags(containerCmd)
 	containerCmd.AddCommand(container.ContainerImagesCmd)
 	containerCmd.AddCommand(container.ContainerIosCmd)
 	containerCmd.AddCommand(container.ContainerShellCmd)

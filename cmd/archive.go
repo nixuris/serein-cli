@@ -7,6 +7,7 @@ import (
 
 func init() {
 	rootCmd.AddCommand(archiveCmd)
+
 	archiveCmd.AddCommand(archive.UnzipCmd)
 	archiveCmd.AddCommand(archive.ZipCmd)
 }

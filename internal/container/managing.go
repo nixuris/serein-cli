@@ -55,6 +55,12 @@ var containerImagesListCmd = &cobra.Command{
 	},
 }
 
+func StandaloneFlags(parent *cobra.Command) {
+	parent.AddCommand(ContainerBuildCmd)
+	parent.AddCommand(ContainerDeleteCmd)
+	parent.AddCommand(ContainerListCmd)
+}
+
 func init() {
 	ContainerImagesCmd.AddCommand(containerImagesDeleteCmd)
 	ContainerImagesCmd.AddCommand(containerImagesListCmd)

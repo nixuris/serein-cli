@@ -4,7 +4,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func RegisterBasicGitCommands(parent *cobra.Command) {
+func BasicGitCommands(parent *cobra.Command) {
 	parent.AddCommand(gitSyncCmd)
 	parent.AddCommand(gitStageCmd)
 	parent.AddCommand(gitUnstageCmd)

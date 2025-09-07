@@ -6,13 +6,12 @@ import (
 )
 
 func init() {
-
 	rootCmd.AddCommand(gitCmd)
-	git.RegisterBasicGitCommands(gitCmd)
+
+	git.BasicGitCommands(gitCmd)
 	gitCmd.AddCommand(git.TagCmd)
 	gitCmd.AddCommand(git.BranchCmd)
 	gitCmd.AddCommand(git.CommitCmd)
-
 }
 
 var gitCmd = &cobra.Command{
