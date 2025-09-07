@@ -33,11 +33,12 @@ var gitAddRemoteCmd = &cobra.Command{
 }
 
 var gitStageCmd = &cobra.Command{
-	Use:   "stage [path]",
-	Short: "Alias for git add <path>",
-	Args:  cobra.ExactArgs(1),
+	Use:   "stage [paths...]",
+	Short: "Alias for git add <paths>",
+	Args:  cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		runGitCommand("add", args[0])
+		gitArgs := append([]string{"add"}, args...)
+		runGitCommand(gitArgs...)
 	},
 }
 
