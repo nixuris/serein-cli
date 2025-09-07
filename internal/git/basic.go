@@ -6,6 +6,7 @@ import (
 
 func BasicGitCommands(parent *cobra.Command) {
 	parent.AddCommand(gitSyncCmd)
+	parent.AddCommand(gitAddRemoteCmd)
 	parent.AddCommand(gitStageCmd)
 	parent.AddCommand(gitUnstageCmd)
 	parent.AddCommand(gitUndoCmd)
@@ -19,6 +20,15 @@ var gitSyncCmd = &cobra.Command{
 	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		runGitCommand("pull", "origin", args[0])
+	},
+}
+
+var gitAddRemoteCmd = &cobra.Command{
+	Use:   "remote [url]",
+	Short: "Alias for git remote add origin <url>",
+	Args:  cobra.ExactArgs(1),
+	Run: func(cmd *cobra.Command, args []string) {
+		runGitCommand("remote", "add", "origin", args[0])
 	},
 }
 
