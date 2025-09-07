@@ -9,3 +9,4 @@ This document provides detailed usage information for the `serein` CLI tool.
 *   [Nix System Management](nix.md)
 *   [Archive Operations](archive.md)
 *   [Git Commands](git.md)
+*   [Find Operations](find.md)
