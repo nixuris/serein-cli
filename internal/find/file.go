@@ -1,64 +1,64 @@
 package find
 
 import (
-    "fmt"
-    "os/exec"
+	"fmt"
+	"os/exec"
 
-    "github.com/spf13/cobra"
+	"github.com/spf13/cobra"
 )
 
 var FileCmd = &cobra.Command{
-    Use:   "file <path> <terms...>",
-    Short: "Search for files by name",
-    Args:  cobra.MinimumNArgs(2),
-    Run: func(cmd *cobra.Command, args []string) {
-        path := args[0]
-        terms := args[1:]
+	Use:   "file <path> <terms...>",
+	Short: "Search for files by name",
+	Args:  cobra.MinimumNArgs(2),
+	Run: func(cmd *cobra.Command, args []string) {
+		path := args[0]
+		terms := args[1:]
 
-        for _, term := range terms {
-            fmt.Printf("📄 Searching for files with '%s' in %s\n", term, path)
-            cmd := exec.Command("find", path, "-type", "f", "-name", fmt.Sprintf("*%s*", term))
-            matches, err := RunCommand(cmd)
-            if err != nil {
-                fmt.Printf("Error finding files with '%s': %v\n", term, err)
-                continue
-            }
-            for _, match := range matches {
-                fmt.Println(match)
-            }
-        }
-    },
+		for _, term := range terms {
+			fmt.Printf("📄 Searching for files with '%s' in %s\n", term, path)
+			cmd := exec.Command("find", path, "-type", "f", "-name", fmt.Sprintf("*%s*", term))
+			matches, err := RunCommand(cmd)
+			if err != nil {
+				fmt.Printf("Error finding files with '%s': %v\n", term, err)
+				continue
+			}
+			for _, match := range matches {
+				fmt.Println(match)
+			}
+		}
+	},
 }
 
 var FileDeleteCmd = &cobra.Command{
-    Use:   "delete <path> <terms...>",
-    Short: "Delete files by name",
-    Args:  cobra.MinimumNArgs(2),
-    Run: func(cmd *cobra.Command, args []string) {
-        path := args[0]
-        terms := args[1:]
+	Use:   "delete <path> <terms...>",
+	Short: "Delete files by name",
+	Args:  cobra.MinimumNArgs(2),
+	Run: func(cmd *cobra.Command, args []string) {
+		path := args[0]
+		terms := args[1:]
 
-        for _, term := range terms {
-            fmt.Printf("📄 Searching for files with '%s' in %s\n", term, path)
-            cmd := exec.Command("find", path, "-type", "f", "-name", fmt.Sprintf("*%s*", term))
-            matches, err := RunCommand(cmd)
-            if err != nil {
-                fmt.Printf("Error finding files with '%s': %v\n", term, err)
-                continue
-            }
-            for _, match := range matches {
-                fmt.Println(match)
-            }
+		for _, term := range terms {
+			fmt.Printf("📄 Searching for files with '%s' in %s\n", term, path)
+			cmd := exec.Command("find", path, "-type", "f", "-name", fmt.Sprintf("*%s*", term))
+			matches, err := RunCommand(cmd)
+			if err != nil {
+				fmt.Printf("Error finding files with '%s': %v\n", term, err)
+				continue
+			}
+			for _, match := range matches {
+				fmt.Println(match)
+			}
 
-            if len(matches) > 0 && Confirm("⚠️  Delete matched files? (y/N): ") {
-                for _, match := range matches {
-                    DeletePath(match, false)
-                }
-            }
-        }
-    },
+			if len(matches) > 0 && Confirm("⚠️  Delete matched files? (y/N): ") {
+				for _, match := range matches {
+					DeletePath(match, false)
+				}
+			}
+		}
+	},
 }
 
 func init() {
-    FileCmd.AddCommand(FileDeleteCmd)
+	FileCmd.AddCommand(FileDeleteCmd)
 }
