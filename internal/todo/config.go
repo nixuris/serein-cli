@@ -10,7 +10,7 @@ import (
 // Configuration and persistence
 
 func (m *Model) LoadConfig() {
-	if err := os.MkdirAll(m.ConfigPath, 0755); err != nil {
+	if err := os.MkdirAll(m.ConfigPath, 0755); err != nil { // owner can read, write, and execute
 		fmt.Println("Error creating config directory:", err)
 		m.CreateDefaultConfig()
 		return
@@ -23,7 +23,7 @@ func (m *Model) LoadConfig() {
 		m.CreateDefaultConfig()
 		return
 	}
-
+	// Creating an anonymous struct right there inside the function to match the structure of your JSON data.
 	var config struct {
 		Tasks    []Task   `json:"tasks"`
 		NextID   int      `json:"next_id"`
@@ -39,7 +39,7 @@ func (m *Model) LoadConfig() {
 	m.NextID = config.NextID
 	m.Contexts = config.Contexts
 
-	if m.NextID == 0 {
+	if m.NextID == 0 { // Fallback to ensure IDs don't get messed up if the NextID value is somehow corrupted or missing, prevents duplicate IDs
 		maxID := 0
 		for _, task := range m.Tasks {
 			if task.ID > maxID {
@@ -50,6 +50,8 @@ func (m *Model) LoadConfig() {
 	}
 }
 
+// Creating an anonymous struct right there inside the function to match the structure of the JSON data.
+// To void the need to define a separate Config type globally.
 func (m *Model) SaveConfig() {
 	configFile := filepath.Join(m.ConfigPath, "config.json")
 
@@ -74,6 +76,7 @@ func (m *Model) SaveConfig() {
 	}
 }
 
+// Default behavior
 func (m *Model) CreateDefaultConfig() {
 	m.Tasks = []Task{
 		{ID: 1, Task: "Welcome to your todo app!", Checked: false, Context: "Work"},
