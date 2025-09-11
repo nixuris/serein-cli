@@ -2,7 +2,6 @@ package find
 
 import (
 	"fmt"
-	"os/exec"
 
 	"github.com/spf13/cobra"
 )
@@ -17,8 +16,7 @@ var FileCmd = &cobra.Command{
 
 		for _, term := range terms {
 			fmt.Printf("📄 Searching for files with '%s' in %s\n", term, path)
-			cmd := exec.Command("find", path, "-type", "f", "-name", fmt.Sprintf("*%s*", term))
-			matches, err := RunCommand(cmd)
+			matches, err := RunCommand("find", path, "-type", "f", "-name", fmt.Sprintf("*%s*", term))
 			if err != nil {
 				fmt.Printf("Error finding files with '%s': %v\n", term, err)
 				continue
@@ -40,8 +38,7 @@ var FileDeleteCmd = &cobra.Command{
 
 		for _, term := range terms {
 			fmt.Printf("📄 Searching for files with '%s' in %s\n", term, path)
-			cmd := exec.Command("find", path, "-type", "f", "-name", fmt.Sprintf("*%s*", term))
-			matches, err := RunCommand(cmd)
+			matches, err := RunCommand("find", path, "-type", "f", "-name", fmt.Sprintf("*%s*", term))
 			if err != nil {
 				fmt.Printf("Error finding files with '%s': %v\n", term, err)
 				continue

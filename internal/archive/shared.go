@@ -1,10 +1,9 @@
 package archive
 
 import (
-	"fmt"
-	"os"
-	"os/exec"
 	"path/filepath"
+	"os"
+	"serein/internal/execute"
 )
 
 func ExpandTargets(targets []string) []string {
@@ -17,7 +16,7 @@ func ExpandTargets(targets []string) []string {
 	return targets
 }
 
-func BuildArchiveCommand(archiveName string, targets []string, password string) *exec.Cmd {
+func BuildArchiveCommand(archiveName string, targets []string, password string) {
 	fileExt := filepath.Ext(archiveName)
 	cmdArgs := []string{"a"}
 
@@ -32,23 +31,14 @@ func BuildArchiveCommand(archiveName string, targets []string, password string) 
 	cmdArgs = append(cmdArgs, archiveName)
 	cmdArgs = append(cmdArgs, targets...)
 
-	return exec.Command("7z", cmdArgs...)
+	execute.ExecuteCommand("7z", cmdArgs...)
 }
 
-func BuildExtractCommand(target string, password string) *exec.Cmd {
+func BuildExtractCommand(target string, password string) {
 	cmdArgs := []string{"x"}
 	if password != "" {
 		cmdArgs = append(cmdArgs, "-p"+password)
 	}
 	cmdArgs = append(cmdArgs, target)
-	return exec.Command("7z", cmdArgs...)
-}
-
-func RunWithOutput(cmd *exec.Cmd, errorMessage string) {
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	if err := cmd.Run(); err != nil {
-		fmt.Println(errorMessage, err)
-		os.Exit(1)
-	}
+	execute.ExecuteCommand("7z", cmdArgs...)
 }

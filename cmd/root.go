@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
+	"serein/internal/config"
 )
 
 var rootCmd = &cobra.Command{
@@ -24,4 +25,5 @@ func Execute() {
 }
 
 func init() {
+	rootCmd.PersistentFlags().BoolVar(&config.DryRun, "dry-run", false, "print the command that would be executed instead of executing it")
 }

@@ -3,8 +3,9 @@ package find
 import (
 	"fmt"
 	"os"
-	"os/exec"
 	"strings"
+
+	"serein/internal/execute"
 )
 
 func DeletePath(path string, isDir bool) {
@@ -31,8 +32,8 @@ func Confirm(prompt string) bool {
 	return strings.ToLower(response) == "y"
 }
 
-func RunCommand(cmd *exec.Cmd) ([]string, error) {
-	output, err := cmd.Output()
+func RunCommand(command string, args ...string) ([]string, error) {
+	output, err := execute.ExecuteCommandWithOutput(command, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -47,8 +48,7 @@ func RunCommand(cmd *exec.Cmd) ([]string, error) {
 }
 
 func DeleteGrepMatches(basePath, term string) {
-	cmd := exec.Command("grep", "-rlE", term, basePath)
-	matches, err := RunCommand(cmd)
+	matches, err := RunCommand("grep", "-rlE", term, basePath)
 	if err != nil {
 		fmt.Printf("Error finding files to delete: %v\n", err)
 		return

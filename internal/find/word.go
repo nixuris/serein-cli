@@ -2,7 +2,6 @@ package find
 
 import (
 	"fmt"
-	"os/exec"
 
 	"github.com/spf13/cobra"
 )
@@ -17,8 +16,7 @@ var WordCmd = &cobra.Command{
 
 		for _, term := range terms {
 			fmt.Printf("🔍 Searching for '%s' in %s\n", term, path)
-			cmd := exec.Command("grep", "-rE", term, path)
-			output, err := RunCommand(cmd)
+			output, err := RunCommand("grep", "-rE", term, path)
 			if err != nil {
 				fmt.Printf("Error searching for '%s': %v\n", term, err)
 				continue
@@ -40,8 +38,7 @@ var WordDeleteCmd = &cobra.Command{
 
 		for _, term := range terms {
 			fmt.Printf("🔍 Searching for '%s' in %s\n", term, path)
-			cmd := exec.Command("grep", "-rE", term, path)
-			output, err := RunCommand(cmd)
+			output, err := RunCommand("grep", "-rE", term, path)
 			if err != nil {
 				fmt.Printf("Error searching for '%s': %v\n", term, err)
 				continue

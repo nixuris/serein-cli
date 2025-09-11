@@ -15,8 +15,7 @@ var ZipCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		archiveName := args[0]
 		targets := ExpandTargets(args[1:])
-		cmdToRun := BuildArchiveCommand(archiveName, targets, "")
-		RunWithOutput(cmdToRun, "Error archiving:")
+		BuildArchiveCommand(archiveName, targets, "")
 	},
 }
 
@@ -27,7 +26,6 @@ var zipPasswordCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		archiveName := args[0]
 		targets := ExpandTargets(args[1:])
-		cmdToRun := BuildArchiveCommand(archiveName, targets, "your-password")
-		RunWithOutput(cmdToRun, "Error archiving with password:")
+		BuildArchiveCommand(archiveName, targets, "your-password")
 	},
 }

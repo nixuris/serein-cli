@@ -3,19 +3,15 @@ package container
 import (
 	"fmt"
 	"os"
-	"os/exec"
+
+	"serein/internal/execute"
 )
 
 func RunPodman(args []string, useStdin bool, failMsg string) {
-	cmd := exec.Command("podman", args...)
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
 	if useStdin {
-		cmd.Stdin = os.Stdin
-	}
-	if err := cmd.Run(); err != nil {
-		fmt.Println(failMsg, err)
-		os.Exit(1)
+		execute.ExecuteCommandWithStdin("podman", args...)
+	} else {
+		execute.ExecuteCommand("podman", args...)
 	}
 }
 

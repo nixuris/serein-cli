@@ -5,9 +5,10 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	"os"
-	"os/exec"
 	"path/filepath"
 	"strings"
+
+	"serein/internal/execute"
 )
 
 func init() {
@@ -52,7 +53,7 @@ var convertMp3NewCmd = &cobra.Command{
 				}
 
 				fmt.Println("Converting + embedding cover:", path, "→", out)
-				ffmpeg := exec.Command(
+				stderr, convErr := execute.ExecuteCommandWithStderr(
 					"ffmpeg",
 					"-nostdin",
 					"-i", path,
@@ -66,7 +67,6 @@ var convertMp3NewCmd = &cobra.Command{
 					out,
 				)
 
-				stderr, convErr := RunCommandWithStderr(ffmpeg)
 				if convErr != nil {
 					LogError(logFile, fmt.Sprintf(
 						"Conversion error for %s: %v\nFFmpeg Output:\n%s\n",
