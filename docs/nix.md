@@ -5,6 +5,9 @@
 *   **Clean up Nix store:**
     `serein nix clean`
 
+*   **Search nixpkgs:**
+    `serein nix search [package name]`
+
 *   **Build a Home Manager configuration:**
     `serein nix home build [path/to/flake]`
 
@@ -38,6 +41,11 @@
 *   **Clean up the Nix store:**
     ```bash
     serein nix clean
+    ```
+
+*   **Search nixpkgs:**
+    ```bash
+    serein nix search blender
     ```
 
 *   **Build a Home Manager configuration from a flake:**

@@ -6,8 +6,20 @@ import (
 
 func BasicNixCmds(parent *cobra.Command) {
 	parent.AddCommand(nixUpdateCmd)
+	parent.AddCommand(nixSearchCmd)
 	parent.AddCommand(nixCleanCmd)
 	parent.AddCommand(nixLintCmd)
+}
+
+var nixSearchCmd = &cobra.Command{
+	Use:   "search",
+	Short: "Search for nix packages",
+	Long:  `Search for nix packages with nix search.`,
+	Args:  cobra.ExactArgs(1),
+	Run: func(cmd *cobra.Command, args []string) {
+		nixpkgsName := args[0]
+		runNixCommand("nix", "search", "nixpkgs", nixpkgsName)
+	},
 }
 
 var nixUpdateCmd = &cobra.Command{
