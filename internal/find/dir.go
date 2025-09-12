@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
+	"serein/internal/shared"
 )
 
 var DirCmd = &cobra.Command{
@@ -16,7 +17,7 @@ var DirCmd = &cobra.Command{
 
 		for _, term := range terms {
 			fmt.Printf("📁 Searching for directories with '%s' in %s\n", term, path)
-			matches, err := RunCommand("find", path, "-type", "d", "-name", fmt.Sprintf("*%s*", term))
+			matches, err := shared.RunCommand("find", path, "-type", "d", "-name", fmt.Sprintf("*%s*", term))
 			if err != nil {
 				fmt.Printf("Error finding directories with '%s': %v\n", term, err)
 				continue
@@ -38,7 +39,7 @@ var DirDeleteCmd = &cobra.Command{
 
 		for _, term := range terms {
 			fmt.Printf("📁 Searching for directories with '%s' in %s\n", term, path)
-			matches, err := RunCommand("find", path, "-type", "d", "-name", fmt.Sprintf("*%s*", term))
+			matches, err := shared.RunCommand("find", path, "-type", "d", "-name", fmt.Sprintf("*%s*", term))
 			if err != nil {
 				fmt.Printf("Error finding directories with '%s': %v\n", term, err)
 				continue
@@ -47,7 +48,7 @@ var DirDeleteCmd = &cobra.Command{
 				fmt.Println(match)
 			}
 
-			if len(matches) > 0 && Confirm("⚠️  Delete matched directories? (y/N): ") {
+			if len(matches) > 0 && shared.Confirm("⚠️  Delete matched directories? (y/N): ") {
 				for _, match := range matches {
 					DeletePath(match, true)
 				}

@@ -6,11 +6,11 @@ import (
 	"strconv"
 	"strings"
 
-	"serein/internal/execute"
+	"serein/internal/shared"
 )
 
 func runNixCommand(command string, args ...string) {
-	execute.ExecuteCommand(command, args...)
+	shared.ExecuteCommand(command, args...)
 }
 
 // parseGenerations takes a slice of strings, which can contain numbers or ranges (e.g., "1-5"),

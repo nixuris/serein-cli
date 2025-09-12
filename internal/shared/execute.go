@@ -1,16 +1,14 @@
-package execute
+package shared
 
 import (
 	"fmt"
 	"os"
 	"os/exec"
 	"strings"
-
-	"serein/internal/config"
 )
 
 func ExecuteCommand(command string, args ...string) {
-	if config.DryRun {
+	if DryRun {
 		fmt.Printf("Executing: %s %s\n", command, strings.Join(args, " "))
 		return
 	}
@@ -25,7 +23,7 @@ func ExecuteCommand(command string, args ...string) {
 }
 
 func ExecuteCommandWithStdin(command string, args ...string) {
-	if config.DryRun {
+	if DryRun {
 		fmt.Printf("Executing: %s %s\n", command, strings.Join(args, " "))
 		return
 	}
@@ -41,7 +39,7 @@ func ExecuteCommandWithStdin(command string, args ...string) {
 }
 
 func ExecuteCommandWithStderr(command string, args ...string) (string, error) {
-	if config.DryRun {
+	if DryRun {
 		fmt.Printf("Executing: %s %s\n", command, strings.Join(args, " "))
 		return "", nil
 	}
@@ -54,7 +52,7 @@ func ExecuteCommandWithStderr(command string, args ...string) (string, error) {
 }
 
 func ExecuteCommandWithOutput(command string, args ...string) (string, error) {
-	if config.DryRun {
+	if DryRun {
 		fmt.Printf("Executing: %s %s\n", command, strings.Join(args, " "))
 		return "", nil
 	}
@@ -62,4 +60,19 @@ func ExecuteCommandWithOutput(command string, args ...string) (string, error) {
 	cmd := exec.Command(command, args...)
 	output, err := cmd.Output()
 	return string(output), err
+}
+
+func RunCommand(command string, args ...string) ([]string, error) {
+	output, err := ExecuteCommandWithOutput(command, args...)
+	if err != nil {
+		return nil, err
+	}
+	lines := strings.Split(strings.TrimSpace(string(output)), "\n")
+	var cleaned []string
+	for _, line := range lines {
+		if line != "" {
+			cleaned = append(cleaned, line)
+		}
+	}
+	return cleaned, nil
 }

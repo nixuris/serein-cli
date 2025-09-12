@@ -4,14 +4,14 @@ import (
 	"fmt"
 	"os"
 
-	"serein/internal/execute"
+	"serein/internal/shared"
 )
 
 func RunPodman(args []string, useStdin bool, failMsg string) {
 	if useStdin {
-		execute.ExecuteCommandWithStdin("podman", args...)
+		shared.ExecuteCommandWithStdin("podman", args...)
 	} else {
-		execute.ExecuteCommand("podman", args...)
+		shared.ExecuteCommand("podman", args...)
 	}
 }
 

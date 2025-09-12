@@ -2,7 +2,7 @@ package music
 
 import (
 	"github.com/spf13/cobra"
-	"serein/internal/execute"
+	"serein/internal/shared"
 )
 
 var YTMusicDownloadCmd = &cobra.Command{
@@ -12,7 +12,7 @@ var YTMusicDownloadCmd = &cobra.Command{
 	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		youtubeURL := args[0]
-		execute.ExecuteCommand(
+		shared.ExecuteCommand(
 			"yt-dlp",
 			"--extract-audio",
 			"--embed-thumbnail",

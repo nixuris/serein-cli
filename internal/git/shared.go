@@ -1,9 +1,9 @@
 package git
 
 import (
-	"serein/internal/execute"
+	"serein/internal/shared"
 )
 
 func runGitCommand(args ...string) {
-	execute.ExecuteCommand("git", args...)
+	shared.ExecuteCommand("git", args...)
 }

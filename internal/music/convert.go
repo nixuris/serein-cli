@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"serein/internal/execute"
+	"serein/internal/shared"
 )
 
 func init() {
@@ -32,11 +32,11 @@ var convertMp3NewCmd = &cobra.Command{
 		logPath := filepath.Join(dir, "conversion_errors.log")
 
 		// create log file
-		logFile, err := CreateFile(logPath)
+		logFile, err := shared.CreateFile(logPath)
 		if err != nil {
 			os.Exit(1)
 		}
-		defer CloseFile(logFile)
+		defer shared.CloseFile(logFile)
 
 		// walk and convert
 		_ = filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
@@ -53,7 +53,7 @@ var convertMp3NewCmd = &cobra.Command{
 				}
 
 				fmt.Println("Converting + embedding cover:", path, "→", out)
-				stderr, convErr := execute.ExecuteCommandWithStderr(
+				stderr, convErr := shared.ExecuteCommandWithStderr(
 					"ffmpeg",
 					"-nostdin",
 					"-i", path,
@@ -68,7 +68,7 @@ var convertMp3NewCmd = &cobra.Command{
 				)
 
 				if convErr != nil {
-					LogError(logFile, fmt.Sprintf(
+					shared.LogError(logFile, fmt.Sprintf(
 						"Conversion error for %s: %v\nFFmpeg Output:\n%s\n",
 						path, convErr, stderr,
 					))
@@ -84,7 +84,7 @@ var convertMp3NewCmd = &cobra.Command{
 					fmt.Println("Deleting source:", path)
 					_ = os.Remove(path)
 				} else {
-					LogError(logFile, fmt.Sprintf(
+					shared.LogError(logFile, fmt.Sprintf(
 						"Conversion failed (zero-size or missing output): %s\n", path,
 					))
 					fmt.Printf("Conversion failed (zero-size or missing output): %s\n", path)
@@ -105,11 +105,11 @@ var convertPlaylistCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		playlist := args[0]
 
-		f, err := OpenFile(playlist)
+		f, err := shared.OpenFile(playlist)
 		if err != nil {
 			os.Exit(1)
 		}
-		defer CloseFile(f)
+		defer shared.CloseFile(f)
 
 		var lines []string
 		scanner := bufio.NewScanner(f)

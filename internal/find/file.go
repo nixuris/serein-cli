@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
+	"serein/internal/shared"
 )
 
 var FileCmd = &cobra.Command{
@@ -16,7 +17,7 @@ var FileCmd = &cobra.Command{
 
 		for _, term := range terms {
 			fmt.Printf("📄 Searching for files with '%s' in %s\n", term, path)
-			matches, err := RunCommand("find", path, "-type", "f", "-name", fmt.Sprintf("*%s*", term))
+			matches, err := shared.RunCommand("find", path, "-type", "f", "-name", fmt.Sprintf("*%s*", term))
 			if err != nil {
 				fmt.Printf("Error finding files with '%s': %v\n", term, err)
 				continue
@@ -38,7 +39,7 @@ var FileDeleteCmd = &cobra.Command{
 
 		for _, term := range terms {
 			fmt.Printf("📄 Searching for files with '%s' in %s\n", term, path)
-			matches, err := RunCommand("find", path, "-type", "f", "-name", fmt.Sprintf("*%s*", term))
+			matches, err := shared.RunCommand("find", path, "-type", "f", "-name", fmt.Sprintf("*%s*", term))
 			if err != nil {
 				fmt.Printf("Error finding files with '%s': %v\n", term, err)
 				continue
@@ -47,7 +48,7 @@ var FileDeleteCmd = &cobra.Command{
 				fmt.Println(match)
 			}
 
-			if len(matches) > 0 && Confirm("⚠️  Delete matched files? (y/N): ") {
+			if len(matches) > 0 && shared.Confirm("⚠️  Delete matched files? (y/N): ") {
 				for _, match := range matches {
 					DeletePath(match, false)
 				}

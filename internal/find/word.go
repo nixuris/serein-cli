@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
+	"serein/internal/shared"
 )
 
 var WordCmd = &cobra.Command{
@@ -16,7 +17,7 @@ var WordCmd = &cobra.Command{
 
 		for _, term := range terms {
 			fmt.Printf("🔍 Searching for '%s' in %s\n", term, path)
-			output, err := RunCommand("grep", "-rE", term, path)
+			output, err := shared.RunCommand("grep", "-rE", term, path)
 			if err != nil {
 				fmt.Printf("Error searching for '%s': %v\n", term, err)
 				continue
@@ -38,7 +39,7 @@ var WordDeleteCmd = &cobra.Command{
 
 		for _, term := range terms {
 			fmt.Printf("🔍 Searching for '%s' in %s\n", term, path)
-			output, err := RunCommand("grep", "-rE", term, path)
+			output, err := shared.RunCommand("grep", "-rE", term, path)
 			if err != nil {
 				fmt.Printf("Error searching for '%s': %v\n", term, err)
 				continue
@@ -47,7 +48,7 @@ var WordDeleteCmd = &cobra.Command{
 				fmt.Println(line)
 			}
 
-			if Confirm("⚠️  Delete matched files? (y/N): ") {
+			if shared.Confirm("⚠️  Delete matched files? (y/N): ") {
 				DeleteGrepMatches(path, term)
 			}
 		}

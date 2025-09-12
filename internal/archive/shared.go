@@ -3,7 +3,7 @@ package archive
 import (
 	"os"
 	"path/filepath"
-	"serein/internal/execute"
+	"serein/internal/shared"
 )
 
 func ExpandTargets(targets []string) []string {
@@ -31,7 +31,7 @@ func BuildArchiveCommand(archiveName string, targets []string, password string) 
 	cmdArgs = append(cmdArgs, archiveName)
 	cmdArgs = append(cmdArgs, targets...)
 
-	execute.ExecuteCommand("7z", cmdArgs...)
+	shared.ExecuteCommand("7z", cmdArgs...)
 }
 
 func BuildExtractCommand(target string, password string) {
@@ -40,5 +40,5 @@ func BuildExtractCommand(target string, password string) {
 		cmdArgs = append(cmdArgs, "-p"+password)
 	}
 	cmdArgs = append(cmdArgs, target)
-	execute.ExecuteCommand("7z", cmdArgs...)
+	shared.ExecuteCommand("7z", cmdArgs...)
 }
