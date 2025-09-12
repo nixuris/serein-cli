@@ -25,9 +25,9 @@
           nativeBuildInputs = [pkgs.installShellFiles];
           # Install fish completion directly in flake
           postFixup = ''
-            installShellCompletion --fish ${./completions/fish-completion.fish}
-            installShellCompletion --zsh  ${./completions/zsh-completion.zsh}
-            installShellCompletion --bash ${./completions/bash-completion.bash}
+            installShellCompletion --fish ${./completions/serein.fish}
+            installShellCompletion --zsh  ${./completions/serein.zsh}
+            installShellCompletion --bash ${./completions/serein.bash}
           '';
         };
       };
