@@ -24,9 +24,9 @@
       stableVersion = "2.0.0";  # Change this
       stableDownload = {
         url = "https://github.com/nixuris/serein-cli/releases/download/v${stableVersion}/serein_${stableVersion}_linux_amd64.tar.gz";
-        sha256 = "11az46x4q20a7pp67qwmi1f6zvfiqmim5r03agx8c24viyyyqih4";  
+        sha256 = "BEbsvY+bCIb6UwPkUmPF0e1vXIiV42PuPQoITLohX4U=";  
 	# Change this when update, 
-	# using nix-prefetch-url --type sha256 <download-url> --unpack | xargs nix hash convert --to base64
+	# nix-prefetch-url --type sha256 <url> --unpack | xargs nix hash convert --hash-algo sha256 --to base64
       };
 
       # Source build for test variant
