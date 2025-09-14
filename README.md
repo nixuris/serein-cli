@@ -22,8 +22,13 @@ If you want to quickly try `serein` without installing it permanently:
 1.  **Ensure Nix is installed** on your system with flake support enabled.
 2.  **Run Serein directly:**
 
+    **Stable binary release:**
     ```bash
-    nix run github:nixuris/serein-cli -- [args]
+    nix run github:nixuris/serein-cli#stable -- [args]
+    ```
+    **Latest development build:**
+    ```bash
+    nix run github:nixuris/serein-cli#test -- [args]
     ```
     (Replace `[args]` with any `serein` command and its arguments, e.g., `nix run github:nixuris/serein-cli -- music convert mp3 /path/to/dir`)
 
@@ -34,12 +39,11 @@ If you manage your system or user environment with NixOS or Home Manager flakes,
 1.  **Add `serein-cli` as an input in your `flake.nix`:**
 
     ```nix
-    # In your flake.nix (e.g., /etc/nixos/flake.nix or ~/.config/home-manager/flake.nix)
     {
       description = "Your personal NixOS/Home Manager configuration";
 
       inputs = {
-        nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable"; # Or whatever nixpkgs they use
+        nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
         home-manager.url = "github:nix-community/home-manager";
         home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -65,7 +69,8 @@ If you manage your system or user environment with NixOS or Home Manager flakes,
     {
       environment.systemPackages = with pkgs; [
         # Reference serein from the serein-cli flake input
-        inputs.serein-cli.packages.${pkgs.system}.default
+        inputs.serein-cli.packages.${pkgs.system}.test # bleeding edge
+        inputs.serein-cli.packages.${pkgs.system}.stable # follow release
       ];
 
       # ... other system configurations
@@ -81,7 +86,8 @@ If you manage your system or user environment with NixOS or Home Manager flakes,
     {
       home.packages = [
         # Reference serein from the serein-cli flake input
-        inputs.serein-cli.packages.${pkgs.system}.default
+        inputs.serein-cli.packages.${pkgs.system}.test # bleeding edge
+        inputs.serein-cli.packages.${pkgs.system}.default # follow release
       ];
 
       # ... other Home Manager options
@@ -124,22 +130,6 @@ For users not using Nix, `serein` can be downloaded as a single executable binar
 ## Usage
 
 Serein provides a set of subcommands for different functionalities. For detailed usage, including all flags and examples, please refer to the [full documentation](docs/docs.md).
-
-### General Commands
-
-*   **Display help:**
-    ```bash
-    serein --help
-    serein [command] --help
-    ```
-
-### Todo Command
-
-*   **Launch the interactive todo application:**
-    ```bash
-    serein todo
-    ```
-    For more details on features and keybindings, refer to the [Todo Documentation](docs/todo.md).
 
 ## Prerequisites
 

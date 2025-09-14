@@ -4,7 +4,6 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
-    # Input for test (remote commit, optional)
     serein-cli-test = {
       url = "github:nixuris/serein-cli?ref=main";
     };
@@ -25,8 +24,6 @@
       stableDownload = {
         url = "https://github.com/nixuris/serein-cli/releases/download/v${stableVersion}/serein_${stableVersion}_linux_amd64.tar.gz";
         sha256 = "1pfnk0zbv1i71s16g42gr5apsbnvwiz0xpj77acajw3kx39j6hd3";  
-	# Change this when update, 
-	# nix-prefetch-url --type sha256 <url> --unpack | xargs nix hash convert --hash-algo sha256 --to base64
       };
 
       # Source build for test variant
