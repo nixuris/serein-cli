@@ -2,6 +2,7 @@ package git
 
 import (
 	"github.com/spf13/cobra"
+	"serein/internal/shared"
 )
 
 func BasicGitCommands(parent *cobra.Command) {
@@ -14,65 +15,66 @@ func BasicGitCommands(parent *cobra.Command) {
 	parent.AddCommand(gitStatusCmd)
 }
 
-var gitSyncCmd = &cobra.Command{
-	Use:   "sync [branch]",
-	Short: "Alias for git pull origin <branch>",
-	Args:  cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
+var gitSyncCmd = shared.NewCommand(
+	"sync [branch]",
+	"Alias for git pull origin <branch>",
+	cobra.ExactArgs(1),
+	func(cmd *cobra.Command, args []string) {
 		runGitCommand("pull", "origin", args[0])
 	},
-}
+)
 
-var gitAddRemoteCmd = &cobra.Command{
-	Use:   "remote [url]",
-	Short: "Alias for git remote add origin <url>",
-	Args:  cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
+var gitAddRemoteCmd = shared.NewCommand(
+	"remote [url]",
+	"Alias for git remote add origin <url>",
+	cobra.ExactArgs(1),
+	func(cmd *cobra.Command, args []string) {
 		runGitCommand("remote", "add", "origin", args[0])
 	},
-}
+)
 
-var gitStageCmd = &cobra.Command{
-	Use:   "stage [paths...]",
-	Short: "Alias for git add <paths>",
-	Args:  cobra.MinimumNArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
+var gitStageCmd = shared.NewCommand(
+	"stage [paths...]",
+	"Alias for git add <paths>",
+	cobra.MinimumNArgs(1),
+	func(cmd *cobra.Command, args []string) {
 		gitArgs := append([]string{"add"}, args...)
 		runGitCommand(gitArgs...)
 	},
-}
+)
 
-var gitUnstageCmd = &cobra.Command{
-	Use:   "unstage [path]",
-	Short: "Alias for git reset <path>",
-	Args:  cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
+var gitUnstageCmd = shared.NewCommand(
+	"unstage [path]",
+	"Alias for git reset <path>",
+	cobra.ExactArgs(1),
+	func(cmd *cobra.Command, args []string) {
 		runGitCommand("reset", args[0])
 	},
-}
+)
 
-var gitUndoCmd = &cobra.Command{
-	Use:   "undo [path]",
-	Short: "Alias for git restore <path>",
-	Args:  cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
+var gitUndoCmd = shared.NewCommand(
+	"undo [path]",
+	"Alias for git restore <path>",
+	cobra.ExactArgs(1),
+	func(cmd *cobra.Command, args []string) {
 		runGitCommand("restore", args[0])
 	},
-}
+)
 
-var gitChangesCmd = &cobra.Command{
-	Use:   "changes [path]",
-	Short: "Alias for git diff <path>",
-	Args:  cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
+var gitChangesCmd = shared.NewCommand(
+	"changes [path]",
+	"Alias for git diff <path>",
+	cobra.ExactArgs(1),
+	func(cmd *cobra.Command, args []string) {
 		runGitCommand("diff", args[0])
 	},
-}
+)
 
-var gitStatusCmd = &cobra.Command{
-	Use:   "status",
-	Short: "Alias for git status",
-	Run: func(cmd *cobra.Command, args []string) {
+var gitStatusCmd = shared.NewCommand(
+	"status",
+	"Alias for git status",
+	cobra.ExactArgs(0),
+	func(cmd *cobra.Command, args []string) {
 		runGitCommand("status")
 	},
-}
+)

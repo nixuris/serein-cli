@@ -16,18 +16,20 @@ func init() {
 	ConvertCmd.AddCommand(convertPlaylistCmd)
 }
 
-var ConvertCmd = &cobra.Command{
-	Use:   "convert",
-	Short: "Music related conversion utilities",
-	Long:  `Music related conversion utilities.`,
-}
+var ConvertCmd = shared.NewCommand(
+	"convert",
+	"Music related conversion utilities",
+	cobra.NoArgs,
+	func(cmd *cobra.Command, args []string) {
+		_ = cmd.Help()
+	},
+)
 
-var convertMp3NewCmd = &cobra.Command{
-	Use:   "mp3 [directory]",
-	Short: "Convert opus/flac to mp3",
-	Long:  `Convert opus/flac to mp3 using ffmpeg.`,
-	Args:  cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
+var convertMp3NewCmd = shared.NewCommand(
+	"mp3 [directory]",
+	"Convert opus/flac to mp3",
+	cobra.ExactArgs(1),
+	func(cmd *cobra.Command, args []string) {
 		dir := args[0]
 		logPath := filepath.Join(dir, "conversion_errors.log")
 
@@ -95,14 +97,13 @@ var convertMp3NewCmd = &cobra.Command{
 
 		fmt.Println("All done! Check conversion_errors.log for any errors.")
 	},
-}
+)
 
-var convertPlaylistCmd = &cobra.Command{
-	Use:   "playlist [path/to/.m3u]",
-	Short: "Format a playlist",
-	Long:  `Format a playlist to be Winamp/Ruizu-safe.`,
-	Args:  cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
+var convertPlaylistCmd = shared.NewCommand(
+	"playlist [path/to/.m3u]",
+	"Format a playlist",
+	cobra.ExactArgs(1),
+	func(cmd *cobra.Command, args []string) {
 		playlist := args[0]
 
 		f, err := shared.OpenFile(playlist)
@@ -125,6 +126,7 @@ var convertPlaylistCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
-		fmt.Printf("✔️  '%s' is now Winamp/Ruizu-safe\n", playlist)
+		fmt.Printf("'%s' is now Winamp/Ruizu-safe\n", playlist)
 	},
-}
+)
+

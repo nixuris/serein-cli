@@ -1,7 +1,11 @@
 package nix
 
 import (
+	"fmt"
+	"os"
+
 	"github.com/spf13/cobra"
+	"serein/internal/shared"
 )
 
 func init() {
@@ -10,40 +14,45 @@ func init() {
 	HomeCmd.AddCommand(HomeGenDeleteCmd)
 }
 
-var HomeCmd = &cobra.Command{
-	Use:   "home",
-	Short: "Manage home-manager",
-	Long:  `Manage home-manager.`,
-}
+var HomeCmd = shared.NewCommand(
+	"home",
+	"Manage home-manager",
+	cobra.NoArgs,
+	func(cmd *cobra.Command, args []string) {
+		_ = cmd.Help()
+	},
+)
 
-var HomeBuildCmd = &cobra.Command{
-	Use:   "build [path/to/flake]",
-	Short: "Build a home-manager configuration",
-	Long:  `Build a home-manager configuration with home-manager switch --flake.`,
-	Args:  cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
+var HomeBuildCmd = shared.NewCommand(
+	"build [path/to/flake]",
+	"Build a home-manager configuration",
+	cobra.ExactArgs(1),
+	func(cmd *cobra.Command, args []string) {
 		flakePath := args[0]
 		runNixCommand("home-manager", "switch", "--flake", flakePath)
 	},
-}
+)
 
-var HomeGenCmd = &cobra.Command{
-	Use:   "gen",
-	Short: "List home-manager generations",
-	Long:  `List home-manager generations with home-manager generations.`,
-	Run: func(cmd *cobra.Command, args []string) {
+var HomeGenCmd = shared.NewCommand(
+	"gen",
+	"List home-manager generations",
+	cobra.NoArgs,
+	func(cmd *cobra.Command, args []string) {
 		runNixCommand("home-manager", "generations")
 	},
-}
+)
 
-var HomeGenDeleteCmd = &cobra.Command{
-	Use:   "delete [numbers...]",
-	Short: "Delete home-manager generations",
-	Long:  `Delete home-manager generations with home-manager remove-generations. Can accept multiple numbers and ranges (e.g., 1-10).`,
-	Args:  cobra.MinimumNArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
-		generations := parseGenerations(args)
+var HomeGenDeleteCmd = shared.NewCommand(
+	"delete [numbers...]",
+	"Delete home-manager generations",
+	cobra.MinimumNArgs(1),
+	func(cmd *cobra.Command, args []string) {
+		generations, err := parseGenerations(args)
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
 		cmdArgs := append([]string{"remove-generations"}, generations...)
 		runNixCommand("home-manager", cmdArgs...)
 	},
-}
+)

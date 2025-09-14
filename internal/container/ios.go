@@ -2,15 +2,17 @@ package container
 
 import (
 	"github.com/spf13/cobra"
+	"serein/internal/shared"
 )
 
 var iosSidestore bool
 var iosPair bool
 
-var ContainerIosCmd = &cobra.Command{
-	Use:   "ios",
-	Short: "Manage iOS devices with containers",
-	Run: func(cmd *cobra.Command, args []string) {
+var ContainerIosCmd = shared.NewCommand(
+	"ios",
+	"Manage iOS devices with containers",
+	cobra.NoArgs,
+	func(cmd *cobra.Command, args []string) {
 		switch {
 		case iosSidestore:
 			RunPodman(BuildIOSArgs("ghcr.io/sidestore/altcon", false), true, "Error running sidestore container:")
@@ -20,7 +22,7 @@ var ContainerIosCmd = &cobra.Command{
 			_ = cmd.Help()
 		}
 	},
-}
+)
 
 func init() {
 	ContainerIosCmd.Flags().BoolVarP(&iosSidestore, "sidestore", "s", false, "Run sidestore container")

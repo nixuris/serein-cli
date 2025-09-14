@@ -7,16 +7,16 @@ import (
 	"serein/internal/shared"
 )
 
-var WordCmd = &cobra.Command{
-	Use:   "word <path> <terms...>",
-	Short: "Search for words inside files",
-	Args:  cobra.MinimumNArgs(2),
-	Run: func(cmd *cobra.Command, args []string) {
+var WordCmd = shared.NewCommand(
+	"word <path> <terms...>",
+	"Search for words inside files",
+	cobra.MinimumNArgs(2),
+	func(cmd *cobra.Command, args []string) {
 		path := args[0]
 		terms := args[1:]
 
 		for _, term := range terms {
-			fmt.Printf("🔍 Searching for '%s' in %s\n", term, path)
+			fmt.Printf("Searching for '%s' in %s\n", term, path)
 			output, err := shared.RunCommand("grep", "-rE", term, path)
 			if err != nil {
 				fmt.Printf("Error searching for '%s': %v\n", term, err)
@@ -27,18 +27,18 @@ var WordCmd = &cobra.Command{
 			}
 		}
 	},
-}
+)
 
-var WordDeleteCmd = &cobra.Command{
-	Use:   "delete <path> <terms...>",
-	Short: "Delete files containing matching words",
-	Args:  cobra.MinimumNArgs(2),
-	Run: func(cmd *cobra.Command, args []string) {
+var WordDeleteCmd = shared.NewCommand(
+	"delete <path> <terms...>",
+	"Delete files containing matching words",
+	cobra.MinimumNArgs(2),
+	func(cmd *cobra.Command, args []string) {
 		path := args[0]
 		terms := args[1:]
 
 		for _, term := range terms {
-			fmt.Printf("🔍 Searching for '%s' in %s\n", term, path)
+			fmt.Printf("Searching for '%s' in %s\n", term, path)
 			output, err := shared.RunCommand("grep", "-rE", term, path)
 			if err != nil {
 				fmt.Printf("Error searching for '%s': %v\n", term, err)
@@ -53,8 +53,9 @@ var WordDeleteCmd = &cobra.Command{
 			}
 		}
 	},
-}
+)
 
 func init() {
 	WordCmd.AddCommand(WordDeleteCmd)
 }
+

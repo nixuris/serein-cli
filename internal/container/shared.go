@@ -32,12 +32,14 @@ func AppendMountFlags(base []string, mount, usb, ip bool) []string {
 	return base
 }
 
-func BuildShellArgs(image string, temp bool) []string {
+func BuildShellArgs(image string, temp, mount, usb, ip bool) []string {
 	args := []string{"run"}
 	if temp {
 		args = append(args, "--rm")
 	}
-	args = append(args, "-it", "-v", MountCurrentDir(), image, "/bin/bash")
+	args = append(args, "-it")
+	args = AppendMountFlags(args, mount, usb, ip)
+	args = append(args, image, "/bin/bash")
 	return args
 }
 

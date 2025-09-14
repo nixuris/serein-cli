@@ -1,7 +1,11 @@
 package nix
 
 import (
+	"fmt"
+	"os"
+
 	"github.com/spf13/cobra"
+	"serein/internal/shared"
 )
 
 func init() {
@@ -10,40 +14,45 @@ func init() {
 	SysCmd.AddCommand(SysGenDeleteCmd)
 }
 
-var SysCmd = &cobra.Command{
-	Use:   "sys",
-	Short: "Manage NixOS system",
-	Long:  `Manage NixOS system.`,
-}
+var SysCmd = shared.NewCommand(
+	"sys",
+	"Manage NixOS system",
+	cobra.NoArgs,
+	func(cmd *cobra.Command, args []string) {
+		_ = cmd.Help()
+	},
+)
 
-var SysBuildCmd = &cobra.Command{
-	Use:   "build [path/to/flake]",
-	Short: "Build a NixOS system",
-	Long:  `Build a NixOS system with sudo nixos-rebuild switch --impure --flake.`,
-	Args:  cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
+var SysBuildCmd = shared.NewCommand(
+	"build [path/to/flake]",
+	"Build a NixOS system",
+	cobra.ExactArgs(1),
+	func(cmd *cobra.Command, args []string) {
 		flakePath := args[0]
 		runNixCommand("sudo", "nixos-rebuild", "switch", "--impure", "--flake", flakePath)
 	},
-}
+)
 
-var SysGenCmd = &cobra.Command{
-	Use:   "gen",
-	Short: "List system generations",
-	Long:  `List system generations with sudo nix-env --list-generations --profile /nix/var/nix/profiles/system.`,
-	Run: func(cmd *cobra.Command, args []string) {
+var SysGenCmd = shared.NewCommand(
+	"gen",
+	"List system generations",
+	cobra.NoArgs,
+	func(cmd *cobra.Command, args []string) {
 		runNixCommand("sudo", "nix-env", "--list-generations", "--profile", "/nix/var/nix/profiles/system")
 	},
-}
+)
 
-var SysGenDeleteCmd = &cobra.Command{
-	Use:   "delete [numbers...]",
-	Short: "Delete system generations",
-	Long:  `Delete system generations with sudo nix-env --profile /nix/var/nix/profiles/system --delete-generations. Can accept multiple numbers and ranges (e.g., 1-10).`,
-	Args:  cobra.MinimumNArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
-		generations := parseGenerations(args)
+var SysGenDeleteCmd = shared.NewCommand(
+	"delete [numbers...]",
+	"Delete system generations",
+	cobra.MinimumNArgs(1),
+	func(cmd *cobra.Command, args []string) {
+		generations, err := parseGenerations(args)
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
 		cmdArgs := append([]string{"nix-env", "--profile", "/nix/var/nix/profiles/system", "--delete-generations"}, generations...)
 		runNixCommand("sudo", cmdArgs...)
 	},
-}
+)

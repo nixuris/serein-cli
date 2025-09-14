@@ -2,30 +2,31 @@ package archive
 
 import (
 	"github.com/spf13/cobra"
+	"serein/internal/shared"
 )
 
 func init() {
 	ZipCmd.AddCommand(zipPasswordCmd)
 }
 
-var ZipCmd = &cobra.Command{
-	Use:   "zip [archive-name] [target-to-archive]",
-	Short: "Archive files with 7z",
-	Args:  cobra.MinimumNArgs(2),
-	Run: func(cmd *cobra.Command, args []string) {
+var ZipCmd = shared.NewCommand(
+	"zip [archive-name] [target-to-archive]",
+	"Archive files with 7z",
+	cobra.MinimumNArgs(2),
+	func(cmd *cobra.Command, args []string) {
 		archiveName := args[0]
 		targets := ExpandTargets(args[1:])
 		BuildArchiveCommand(archiveName, targets, "")
 	},
-}
+)
 
-var zipPasswordCmd = &cobra.Command{
-	Use:   "password [archive-name] [target-to-archive]",
-	Short: "Archive files with 7z and a password",
-	Args:  cobra.MinimumNArgs(2),
-	Run: func(cmd *cobra.Command, args []string) {
+var zipPasswordCmd = shared.NewCommand(
+	"password [archive-name] [target-to-archive]",
+	"Archive files with 7z and a password",
+	cobra.MinimumNArgs(2),
+	func(cmd *cobra.Command, args []string) {
 		archiveName := args[0]
 		targets := ExpandTargets(args[1:])
 		BuildArchiveCommand(archiveName, targets, "your-password")
 	},
-}
+)

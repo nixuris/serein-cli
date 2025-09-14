@@ -2,6 +2,7 @@ package git
 
 import (
 	"github.com/spf13/cobra"
+	"serein/internal/shared"
 )
 
 func init() {
@@ -11,44 +12,49 @@ func init() {
 	TagCmd.AddCommand(tagDeleteRemoteCmd)
 }
 
-var TagCmd = &cobra.Command{
-	Use:   "tag",
-	Short: "Git tag commands",
-}
+var TagCmd = shared.NewCommand(
+	"tag",
+	"Git tag commands",
+	cobra.NoArgs,
+	func(cmd *cobra.Command, args []string) {
+		_ = cmd.Help()
+	},
+)
 
-var tagCreateCmd = &cobra.Command{
-	Use:   "create [SHA] [name] [message]",
-	Short: "Alias for git tag -a <name> -m \"<msg>\" <SHA>",
-	Args:  cobra.ExactArgs(3),
-	Run: func(cmd *cobra.Command, args []string) {
+var tagCreateCmd = shared.NewCommand(
+	"create [SHA] [name] [message]",
+	"Alias for git tag -a <name> -m \"<msg>\" <SHA>",
+	cobra.ExactArgs(3),
+	func(cmd *cobra.Command, args []string) {
 		runGitCommand("tag", "-a", args[1], "-m", args[2], args[0])
 	},
-}
+)
 
-var tagDeleteLocalCmd = &cobra.Command{
-	Use:   "local [name]",
-	Short: "Alias for git tag -d <name>",
-	Args:  cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
+var tagDeleteLocalCmd = shared.NewCommand(
+	"local [name]",
+	"Alias for git tag -d <name>",
+	cobra.ExactArgs(1),
+	func(cmd *cobra.Command, args []string) {
 		runGitCommand("tag", "-d", args[0])
 	},
-}
+)
 
-var tagDeleteRemoteCmd = &cobra.Command{
-	Use:   "remote [name]",
-	Short: "Alias for git push origin --delete <name>",
-	Args:  cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
+var tagDeleteRemoteCmd = shared.NewCommand(
+	"remote [name]",
+	"Alias for git push origin --delete <name>",
+	cobra.ExactArgs(1),
+	func(cmd *cobra.Command, args []string) {
 		runGitCommand("push", "origin", "--delete", args[0])
 	},
-}
+)
 
-var tagWipeCmd = &cobra.Command{
-	Use:   "wipe [name]",
-	Short: "Alias for git tag -d <name> && git push origin --delete <name>",
-	Args:  cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
+var tagWipeCmd = shared.NewCommand(
+	"wipe [name]",
+	"Alias for git tag -d <name> && git push origin --delete <name>",
+	cobra.ExactArgs(1),
+	func(cmd *cobra.Command, args []string) {
 		runGitCommand("tag", "-d", args[0])
 		runGitCommand("push", "origin", "--delete", args[0])
 	},
-}
+)
+

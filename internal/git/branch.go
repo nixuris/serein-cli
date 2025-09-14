@@ -2,6 +2,7 @@ package git
 
 import (
 	"github.com/spf13/cobra"
+	"serein/internal/shared"
 )
 
 func init() {
@@ -12,51 +13,56 @@ func init() {
 	BranchCmd.AddCommand(gitBranchDeleteRemoteCmd)
 }
 
-var BranchCmd = &cobra.Command{
-	Use:   "branch",
-	Short: "Git branch commands",
-}
+var BranchCmd = shared.NewCommand(
+	"branch",
+	"Git branch commands",
+	cobra.NoArgs,
+	func(cmd *cobra.Command, args []string) {
+		_ = cmd.Help()
+	},
+)
 
-var gitBranchListCmd = &cobra.Command{
-	Use:   "list",
-	Short: "Alias for git branch -avv",
-	Run: func(cmd *cobra.Command, args []string) {
+var gitBranchListCmd = shared.NewCommand(
+	"list",
+	"Alias for git branch -avv",
+	cobra.NoArgs,
+	func(cmd *cobra.Command, args []string) {
 		runGitCommand("branch", "-avv")
 	},
-}
+)
 
-var gitBranchCreateCmd = &cobra.Command{
-	Use:   "create [name]",
-	Short: "Alias for git switch -c <name>",
-	Args:  cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
+var gitBranchCreateCmd = shared.NewCommand(
+	"create [name]",
+	"Alias for git switch -c <name>",
+	cobra.ExactArgs(1),
+	func(cmd *cobra.Command, args []string) {
 		runGitCommand("switch", "-c", args[0])
 	},
-}
+)
 
-var gitBranchSwitchCmd = &cobra.Command{
-	Use:   "switch [name]",
-	Short: "Alias for git switch <name>",
-	Args:  cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
+var gitBranchSwitchCmd = shared.NewCommand(
+	"switch [name]",
+	"Alias for git switch <name>",
+	cobra.ExactArgs(1),
+	func(cmd *cobra.Command, args []string) {
 		runGitCommand("switch", args[0])
 	},
-}
+)
 
-var gitBranchDeleteLocalCmd = &cobra.Command{
-	Use:   "local [name]",
-	Short: "Alias for git branch -D <name>",
-	Args:  cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
+var gitBranchDeleteLocalCmd = shared.NewCommand(
+	"local [name]",
+	"Alias for git branch -D <name>",
+	cobra.ExactArgs(1),
+	func(cmd *cobra.Command, args []string) {
 		runGitCommand("branch", "-D", args[0])
 	},
-}
+)
 
-var gitBranchDeleteRemoteCmd = &cobra.Command{
-	Use:   "remote [name]",
-	Short: "Alias for git push origin --delete <name>",
-	Args:  cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
+var gitBranchDeleteRemoteCmd = shared.NewCommand(
+	"remote [name]",
+	"Alias for git push origin --delete <name>",
+	cobra.ExactArgs(1),
+	func(cmd *cobra.Command, args []string) {
 		runGitCommand("push", "origin", "--delete", args[0])
 	},
-}
+)
