@@ -14,16 +14,20 @@
   }:
     flake-utils.lib.eachDefaultSystem (system: let
       pkgs = nixpkgs.legacyPackages.${system};
-      # Get the version from the Git tag or commit hash
-      version = self.rev or "dirty";
+      src = pkgs.lib.cleanGit {
+        inherit (self) src;
+        name = "serein";
+      };
+      version = pkgs.lib.escapeShellArg (pkgs.lib.fileContents "${src}/.version");
+
     in {
       packages = rec {
         default = pkgs.buildGoModule {
           pname = "serein";
-          inherit version; # Use the dynamically set version
-          src = ./.;
+          inherit version;
+          # Point the src to the cleaned Git source
+          src = src;
           vendorHash = "sha256-+gNaABMs7XZbOFlvLQA5KtnZrBHDWgBtH6W29KMeBU0=";
-          # Tell Nix to inject the version into the Go binary
           ldflags = [
             "-s"
             "-w"
