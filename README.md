@@ -1,6 +1,6 @@
 # Serein CLI
 
-Serein is an opinionated command-line interface (CLI) tool designed to streamline various system management and utility tasks.
+Serein is an opinionated CLI wrapper that replaces cryptic flags with self-explanatory, English-like sub-commands.
 
 ## Features
 
