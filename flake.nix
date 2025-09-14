@@ -24,7 +24,7 @@
       stableVersion = "2.0.0";  # Change this
       stableDownload = {
         url = "https://github.com/nixuris/serein-cli/releases/download/v${stableVersion}/serein_${stableVersion}_linux_amd64.tar.gz";
-        sha256 = "BEbsvY+bCIb6UwPkUmPF0e1vXIiV42PuPQoITLohX4U=";  
+        sha256 = "1pfnk0zbv1i71s16g42gr5apsbnvwiz0xpj77acajw3kx39j6hd3";  
 	# Change this when update, 
 	# nix-prefetch-url --type sha256 <url> --unpack | xargs nix hash convert --hash-algo sha256 --to base64
       };
@@ -51,17 +51,17 @@
       buildSereinFromBinary = pkgs.stdenv.mkDerivation {
         pname = "serein";
         version = stableVersion;
-        src = builtins.fetchTarball {
+        src = builtins.fetchurl {
           inherit (stableDownload) url sha256;
         };
         nativeBuildInputs = [pkgs.installShellFiles pkgs.patchelf pkgs.makeWrapper];
         phases = ["installPhase" "fixupPhase"];
         installPhase = ''
           mkdir -p $out/bin
-          cp $src/serein $out/bin/serein
+	  tar -xzf $src
+          cp serein $out/bin/serein
           chmod +w $out/bin/serein  # Ensure the binary is writable for patchelf
           chmod +x $out/bin/serein
-          # Install completions from local source (assuming tarball doesn't include them)
           installShellCompletion --fish ${./.}/completions/serein.fish
           installShellCompletion --zsh ${./.}/completions/serein.zsh
           installShellCompletion --bash ${./.}/completions/serein.bash
