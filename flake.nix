@@ -23,6 +23,12 @@
           inherit version; # Use the dynamically set version
           src = ./.;
           vendorHash = "sha256-+gNaABMs7XZbOFlvLQA5KtnZrBHDWgBtH6W29KMeBU0=";
+          # Tell Nix to inject the version into the Go binary
+          ldflags = [
+            "-s"
+            "-w"
+            "-X main.version=${version}"
+          ];
           nativeBuildInputs = [pkgs.installShellFiles];
           postFixup = ''
             installShellCompletion --fish ${./completions/serein.fish}
