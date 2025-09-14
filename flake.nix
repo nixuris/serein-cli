@@ -1,5 +1,5 @@
 {
-  description = "A CLI tool for various utilities";
+  description = "An opinionated CLI wrapper that replaces cryptic flags with self-explanatory, English-like sub-commands.";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -14,16 +14,16 @@
   }:
     flake-utils.lib.eachDefaultSystem (system: let
       pkgs = nixpkgs.legacyPackages.${system};
+      # Get the version from the Git tag or commit hash
+      version = self.rev or "dirty";
     in {
       packages = rec {
         default = pkgs.buildGoModule {
           pname = "serein";
-          version = "0.1.0";
+          inherit version; # Use the dynamically set version
           src = ./.;
           vendorHash = "sha256-+gNaABMs7XZbOFlvLQA5KtnZrBHDWgBtH6W29KMeBU0=";
-          # Add installShellFiles to build inputs
           nativeBuildInputs = [pkgs.installShellFiles];
-          # Install fish completion directly in flake
           postFixup = ''
             installShellCompletion --fish ${./completions/serein.fish}
             installShellCompletion --zsh  ${./completions/serein.zsh}
