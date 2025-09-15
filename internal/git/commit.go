@@ -1,6 +1,7 @@
 package git
 
 import (
+	"fmt"
 	"github.com/spf13/cobra"
 	"serein/internal/shared"
 )
@@ -9,9 +10,12 @@ func init() {
 	CommitCmd.AddCommand(CommitPushCmd)
 	CommitCmd.AddCommand(CommitListCmd)
 	CommitCmd.AddCommand(CommitUndoCmd)
-	CommitCmd.AddCommand(CommitDeleteCmd)
+	CommitCmd.AddCommand(commitDeleteCmd)
 	CommitCmd.AddCommand(CommitChangesCmd)
 	CommitCmd.AddCommand(CommitCompareCmd)
+
+	commitDeleteCmd.AddCommand(commitDeleteStageCmd)
+	commitDeleteCmd.AddCommand(commitDeleteUnstageCmd)
 }
 
 var CommitCmd = shared.NewCommand(
@@ -24,11 +28,27 @@ var CommitCmd = shared.NewCommand(
 )
 
 var CommitPushCmd = shared.NewCommand(
-	"push [branch]",
+	"push <branch> [force]",
 	"Alias for git push origin <branch>",
-	cobra.ExactArgs(1),
+	cobra.RangeArgs(1, 2),
 	func(cmd *cobra.Command, args []string) {
-		runGitCommand("push", "origin", args[0])
+		branchName := args[0]
+		isForce := false
+
+		if len(args) == 2 {
+			if args[1] == "force" {
+				isForce = true
+			} else {
+				fmt.Println("Error: invalid second argument. Did you mean 'force'?")
+				return
+			}
+		}
+
+		gitArgs := []string{"push", "origin", branchName}
+		if isForce {
+			gitArgs = append(gitArgs, "--force")
+		}
+		runGitCommand(gitArgs...)
 	},
 )
 
@@ -50,12 +70,31 @@ var CommitUndoCmd = shared.NewCommand(
 	},
 )
 
-var CommitDeleteCmd = shared.NewCommand(
-	"delete [number]",
-	"Alias for git reset --hard HEAD~<numb>",
+// commitDeleteCmd is the new parent for delete subcommands
+var commitDeleteCmd = shared.NewCommand(
+	"delete",
+	"Delete a commit using --soft or --mixed reset",
+	cobra.NoArgs,
+	func(cmd *cobra.Command, args []string) {
+		_ = cmd.Help()
+	},
+)
+
+var commitDeleteStageCmd = shared.NewCommand(
+	"stage [number]",
+	"Alias for git reset --soft HEAD~<numb> (keeps changes staged)",
 	cobra.ExactArgs(1),
 	func(cmd *cobra.Command, args []string) {
-		runGitCommand("reset", "--hard", "HEAD~"+args[0])
+		runGitCommand("reset", "--soft", "HEAD~"+args[0])
+	},
+)
+
+var commitDeleteUnstageCmd = shared.NewCommand(
+	"unstage [number]",
+	"Alias for git reset --mixed HEAD~<numb> (keeps changes in working dir)",
+	cobra.ExactArgs(1),
+	func(cmd *cobra.Command, args []string) {
+		runGitCommand("reset", "--mixed", "HEAD~"+args[0])
 	},
 )
 
@@ -76,4 +115,3 @@ var CommitCompareCmd = shared.NewCommand(
 		runGitCommand("diff", args[0], args[1])
 	},
 )
-

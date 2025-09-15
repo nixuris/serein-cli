@@ -1,16 +1,30 @@
 package shared
 
 import (
+	"bufio"
 	"fmt"
+	"os"
 	"strings"
 )
 
 func Confirm(prompt string) bool {
 	fmt.Print(prompt)
-	var response string
-	if _, err := fmt.Scanln(&response); err != nil {
+	reader := bufio.NewReader(os.Stdin)
+	response, err := reader.ReadString('\n')
+	if err != nil {
 		fmt.Printf("⚠️  Failed to read input: %v\n", err)
 		return false
 	}
-	return strings.ToLower(response) == "y"
+	return strings.ToLower(strings.TrimSpace(response)) == "y"
+}
+
+func GetInput(prompt string) string {
+	fmt.Print(prompt)
+	reader := bufio.NewReader(os.Stdin)
+	input, err := reader.ReadString('\n')
+	if err != nil {
+		fmt.Printf("⚠️  Failed to read input: %v\n", err)
+		return ""
+	}
+	return strings.TrimSpace(input)
 }

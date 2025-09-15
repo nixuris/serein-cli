@@ -44,20 +44,22 @@ var gitStageCmd = shared.NewCommand(
 )
 
 var gitUnstageCmd = shared.NewCommand(
-	"unstage [path]",
-	"Alias for git reset <path>",
-	cobra.ExactArgs(1),
+	"unstage [paths...]",
+	"Alias for git reset <paths>",
+	cobra.MinimumNArgs(1),
 	func(cmd *cobra.Command, args []string) {
-		runGitCommand("reset", args[0])
+		gitArgs := append([]string{"reset"}, args...)
+		runGitCommand(gitArgs...)
 	},
 )
 
 var gitUndoCmd = shared.NewCommand(
-	"undo [path]",
-	"Alias for git restore <path>",
-	cobra.ExactArgs(1),
+	"undo [paths...]",
+	"Alias for git restore <paths>",
+	cobra.MinimumNArgs(1),
 	func(cmd *cobra.Command, args []string) {
-		runGitCommand("restore", args[0])
+		gitArgs := append([]string{"restore"}, args...)
+		runGitCommand(gitArgs...)
 	},
 )
 

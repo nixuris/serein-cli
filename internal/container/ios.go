@@ -15,9 +15,9 @@ var ContainerIosCmd = shared.NewCommand(
 	func(cmd *cobra.Command, args []string) {
 		switch {
 		case iosSidestore:
-			RunPodman(BuildIOSArgs("ghcr.io/sidestore/altcon", false), true, "Error running sidestore container:")
+			RunPodman(BuildIOSArgs("ghcr.io/sidestore/altcon", false), true)
 		case iosPair:
-			RunPodman(BuildIOSArgs("ipairing", true), true, "Error running ipairing container:")
+			RunPodman(BuildIOSArgs("ipairing", true), true)
 		default:
 			_ = cmd.Help()
 		}

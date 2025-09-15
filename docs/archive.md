@@ -1,42 +1,50 @@
 ## Archive Operations
 
-### Flags and CLI Input
+This module provides commands for creating and extracting archives using `7z`.
+
+### Usage
 
 *   **Zip files:**
-    `serein archive zip [archive-name] [target-to-archive...]`
+    ```bash
+    serein archive zip [archive-name] [target-to-archive...]
+    ```
 
-*   **Zip files with password:**
-    `serein archive zip password [archive-name] [target-to-archive...]`
+*   **Zip files with a password:**
+    ```bash
+    serein archive zip password [archive-name] [target-to-archive...]
+    ```
+    *Note: You will be prompted to enter a password.*
 
 *   **Unzip files:**
-    `serein archive unzip [target-to-unarchive]`
+    ```bash
+    serein archive unzip [target-to-unarchive]
+    ```
 
-*   **Unzip files with password:**
-    `serein archive unzip password [password] [target-to-unarchive]`
+*   **Unzip files with a password:**
+    ```bash
+    serein archive unzip password [password] [target-to-unarchive]
+    ```
 
 ### Examples
 
-*   **Create a zip archive from multiple files:**
+*   **Create a standard zip archive:**
     ```bash
-    serein archive zip myarchive.zip file1.txt file2.jpg
+    serein archive zip my_archive.zip file1.txt my_folder/
     ```
 
-*   **Create a 7z archive from a folder:**
+*   **Create a password-protected archive:**
     ```bash
-    serein archive zip myarchive.7z myfolder/
+    serein archive zip password my_secret_archive.7z sensitive_data/
+    # You will be prompted to enter a password in the terminal
     ```
 
-*   **Create a password-protected zip archive:**
+*   **Extract a standard archive:**
     ```bash
-    serein archive zip password myarchive.zip sensitive_data.txt
-    ```
-
-*   **Extract an archive:**
-    ```bash
-    serein archive unzip myarchive.zip
+    serein archive unzip my_archive.zip
     ```
 
 *   **Extract a password-protected archive:**
     ```bash
-    serein archive unzip password mypassword encrypted_archive.7z
+    serein archive unzip password my_secret_archive.7z
+    # You will be prompted to enter the password
     ```

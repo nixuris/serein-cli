@@ -7,11 +7,11 @@ import (
 	"serein/internal/shared"
 )
 
-func RunPodman(args []string, useStdin bool, failMsg string) {
+func RunPodman(args []string, useStdin bool) {
 	if useStdin {
-		shared.ExecuteCommandWithStdin("podman", args...)
+		shared.CheckErr(shared.ExecuteCommandWithStdin("podman", args...))
 	} else {
-		shared.ExecuteCommand("podman", args...)
+		shared.CheckErr(shared.ExecuteCommand("podman", args...))
 	}
 }
 

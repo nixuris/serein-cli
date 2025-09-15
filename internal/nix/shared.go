@@ -9,7 +9,7 @@ import (
 )
 
 func runNixCommand(command string, args ...string) {
-	shared.ExecuteCommand(command, args...)
+	shared.CheckErr(shared.ExecuteCommand(command, args...))
 }
 
 // parseGenerations takes a slice of strings, which can contain numbers or ranges (e.g., "1-5"),

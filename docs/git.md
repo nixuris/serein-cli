@@ -1,106 +1,116 @@
 ## Git Commands
 
-### Flags and CLI Input
+This module provides a collection of convenient aliases for common `git` operations, simplifying daily workflows.
 
-*   **Sync a branch:**
-    `serein git sync [branch]`
+### Staging & Local Changes
 
-*   **Stage changes:**
-    `serein git stage [path]`
-
-*   **Unstage changes:**
-    `serein git unstage [path]`
-
-*   **Undo changes:**
-    `serein git undo [path]`
-
-*   **Show changes:**
-    `serein git changes [path]`
-
-*   **Show status:**
-    `serein git status`
-
-*   **Commit changes:**
-    `serein git commit "[message]"`
-
-*   **Push commit:**
-    `serein git commit push [branch]`
-
-*   **List commits:**
-    `serein git commit list`
-
-*   **Undo a commit:**
-    `serein git commit undo [SHA]`
-
-*   **Delete a commit:**
-    `serein git commit delete [number]`
-
-*   **Show commit changes:**
-    `serein git commit changes [SHA]`
-
-*   **Compare commits:**
-    `serein git commit compare [SHA1] [SHA2]`
-
-*   **List branches:**
-    `serein git branch list`
-
-*   **Create a branch:**
-    `serein git branch create [name]`
-
-*   **Switch branch:**
-    `serein git branch switch [name]`
-
-*   **Delete local branch:**
-    `serein git branch delete local [name]`
-
-*   **Delete remote branch:**
-    `serein git branch delete remote [name]`
-
-*   **Create a tag:**
-    `serein git tag create [SHA] [name] "[message]"`
-
-*   **Delete local tag:**
-    `serein git tag delete local [name]`
-
-*   **Delete remote tag:**
-    `serein git tag delete remote [name]`
-
-*   **Wipe tag (local and remote):**
-    `serein git tag wipe [name]`
-
-### Examples
-
-*   **Sync the current branch with origin/main:**
+*   **Check repository status:**
     ```bash
-    serein git sync main
+    serein git status
     ```
 
-*   **Stage a specific file:**
+*   **Stage one or more files:**
     ```bash
-    serein git stage src/main.go
+    serein git stage <path1> [path2...]
     ```
 
-*   **Commit changes with a message:**
+*   **Unstage one or more files:**
     ```bash
-    serein git commit "feat: Add new feature"
+    serein git unstage <path1> [path2...]
     ```
 
-*   **Push the current branch to origin:**
+*   **Show changes for a file:**
     ```bash
-    serein git commit push main
+    serein git changes <path>
     ```
 
-*   **List all commits:**
+*   **Discard changes in one or more files:**
+    ```bash
+    serein git undo <path1> [path2...]
+    ```
+
+### Commits
+
+*   **Commit staged changes with a message:**
+    ```bash
+    serein git commit "<message>"
+    ```
+
+*   **Push commits to a remote branch:**
+    ```bash
+    serein git commit push <branch-name> [force]
+    ```
+
+*   **List commits in a condensed view:**
     ```bash
     serein git commit list
     ```
 
-*   **Switch to a new branch:**
+*   **Revert a commit by its SHA:**
     ```bash
-    serein git branch switch develop
+    serein git commit undo <SHA>
     ```
 
-*   **Create a new tag:**
+*   **Delete previous commits (soft reset, keeps changes staged):**
     ```bash
-    serein git tag create abcdef1 v1.0.0 "Release version 1.0.0"
+    serein git commit delete stage <number-of-commits>
+    ```
+
+*   **Delete previous commits (mixed reset, keeps changes in working directory):**
+    ```bash
+    serein git commit delete unstage <number-of-commits>
+    ```
+
+### Branches & Syncing
+
+*   **List all local and remote branches:**
+    ```bash
+    serein git branch list
+    ```
+
+*   **Create and switch to a new branch:**
+    ```bash
+    serein git branch create <branch-name>
+    ```
+
+*   **Switch to an existing branch:**
+    ```bash
+    serein git branch switch <branch-name>
+    ```
+
+*   **Delete a local branch:**
+    ```bash
+    serein git branch delete local <branch-name>
+    ```
+
+*   **Delete a remote branch:**
+    ```bash
+    serein git branch delete remote <branch-name>
+    ```
+
+*   **Pull changes from a remote branch:**
+    ```bash
+    serein git sync <branch-name>
+    ```
+
+### Tags
+
+*   **Create an annotated tag:**
+    ```bash
+    serein git tag create <SHA> <tag-name> "<message>"
+    ```
+
+*   **Delete a local tag:**
+    ```bash
+    serein git tag delete local <tag-name>
+    ```
+
+*   **Delete a remote tag:**
+    ```bash
+    serein git tag delete remote <tag-name>
+    ```
+
+*   **Delete a tag from both local and remote (use with caution):**
+    ```bash
+    serein git tag wipe <tag-name>
     ```

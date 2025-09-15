@@ -58,4 +58,3 @@ var WordDeleteCmd = shared.NewCommand(
 func init() {
 	WordCmd.AddCommand(WordDeleteCmd)
 }
-

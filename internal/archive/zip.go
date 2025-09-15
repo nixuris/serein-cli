@@ -1,6 +1,7 @@
 package archive
 
 import (
+	"fmt"
 	"github.com/spf13/cobra"
 	"serein/internal/shared"
 )
@@ -27,6 +28,11 @@ var zipPasswordCmd = shared.NewCommand(
 	func(cmd *cobra.Command, args []string) {
 		archiveName := args[0]
 		targets := ExpandTargets(args[1:])
-		BuildArchiveCommand(archiveName, targets, "your-password")
+		password := shared.GetInput("Enter archive password: ")
+		if password == "" {
+			fmt.Println("Password cannot be empty.")
+			return
+		}
+		BuildArchiveCommand(archiveName, targets, password)
 	},
 )

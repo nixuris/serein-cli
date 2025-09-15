@@ -1,55 +1,57 @@
 ## Find Operations
 
-The `find` command provides a convenient wrapper around standard `grep` and `find` utilities, allowing you to search for words within files, or locate files and directories by name. It also includes an optional `delete` mode for removing matched items.
+The `find` command provides convenient wrappers for `grep` and `find` to locate words, files, or directories. Each command includes an optional `delete` mode.
 
-### Flags and CLI Input
+### Usage
 
-*   **Search for words in files:**
-    `serein find word [delete] <path> <terms...>`
-    - `[delete]`: Optional. If present, prompts to delete files where terms are found.
-    - `<path>`: The directory path to start the search from.
-    - `<terms...>`: One or more words to search for.
+*   **Find words within files:**
+    ```bash
+    serein find word <path> <terms...>
+    ```
 
-*   **Search for files by name:**
-    `serein find file [delete] <path> <terms...>`
-    - `[delete]`: Optional. If present, prompts to delete matched files.
-    - `<path>`: The directory path to start the search from.
-    - `<terms...>`: One or more file names (or parts of names) to search for. Wildcards are automatically applied.
+*   **Find and delete files containing specific words:**
+    ```bash
+    serein find word delete <path> <terms...>
+    ```
 
-*   **Search for directories by name:**
-    `serein find dir [delete] <path> <terms...>`
-    - `[delete]`: Optional. If present, prompts to delete matched directories.
-    - `<path>`: The directory path to start the search from.
-    - `<terms...>`: One or more directory names (or parts of names) to search for. Wildcards are automatically applied.
+*   **Find files by name:**
+    ```bash
+    serein find file <path> <terms...>
+    ```
+
+*   **Find and delete files by name:**
+    ```bash
+    serein find file delete <path> <terms...>
+    ```
+
+*   **Find directories by name:**
+    ```bash
+    serein find dir <path> <terms...>
+    ```
+
+*   **Find and delete directories by name:**
+    ```bash
+    serein find dir delete <path> <terms...>
+    ```
 
 ### Examples
 
-*   **Search for the word "error" in the current directory:**
+*   **Search for all occurrences of the word "error" in the current directory:**
     ```bash
     serein find word . "error"
     ```
 
-*   **Search for "TODO" and "FIXME" in the `src` directory and delete files containing them:**
+*   **Find all files in `src/` containing "TODO" or "FIXME" and be prompted to delete them:**
     ```bash
     serein find word delete ./src "TODO" "FIXME"
     ```
 
-*   **Find files named "config" (or containing "config") in the current directory:**
+*   **Find all files with "config" in their name:**
     ```bash
     serein find file . "config"
     ```
 
-*   **Find and delete all files containing "temp" in their name within the `/tmp` directory:**
+*   **Find and be prompted to delete all directories named `__pycache__`:**
     ```bash
-    serein find file delete /tmp "temp"
-    ```
-
-*   **Find directories named "build" in the current directory:**
-    ```bash
-    serein find dir . "build"
-    ```
-
-*   **Find and delete directories containing "old" in their name within the `/var/log` directory:**
-    ```bash
-    serein find dir delete /var/log "old"
+    serein find dir delete . "__pycache__"
     ```

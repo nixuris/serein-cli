@@ -111,20 +111,24 @@ For users not using Nix, `serein` can be downloaded as a single executable binar
     sudo mv ./serein /usr/local/bin/
     ```
 
-#### Manual Installation
+### Manual Installation (from source)
+
+If you have a Go environment set up, you can build from source.
 
 1.  **Clone the repo:**
-
     ```bash
-    git clone --depth=1 https://github.com/nixuris/serein-cli
+    git clone https://github.com/nixuris/serein-cli
     cd serein-cli
     ```
 
-2.  **Install Dependencies and Build:**
-
+2.  **Build the binary:**
+    The included `Makefile` provides an easy way to build the application:
     ```bash
-    go mod tidy
-    go build .
+    make build
+    ```
+    Alternatively, you can use the standard Go command:
+    ```bash
+    go build -o serein .
     ```
 
 ## Usage
@@ -133,13 +137,13 @@ Serein provides a set of subcommands for different functionalities. For detailed
 
 ## Prerequisites
 
-Serein currently leverages on several external tools being available in your system's PATH (whether having these tools or not is not mandatory):
+Serein acts as a wrapper for several external tools. For all features to work, ensure the following are available in your system's `PATH`:
 
-*   **`podman`**: For container management commands.
-*   **`ffmpeg`**: For audio conversion.
-*   **`yt-dlp`**: For YouTube audio downloads.
-*   **`7z` (p7zip)**: For archive operations.
-*   **`git`**: For git commands.
+*   `podman`: For container management commands.
+*   `ffmpeg`: For audio conversion.
+*   `yt-dlp`: For YouTube audio downloads.
+*   `7z` (p7zip): For archive operations.
+*   `git`: For git commands.
 
 ## Contributing
 

@@ -26,107 +26,108 @@ var ConvertCmd = shared.NewCommand(
 )
 
 var convertMp3NewCmd = shared.NewCommand(
-	"mp3 [directory]",
-	"Convert opus/flac to mp3",
-	cobra.ExactArgs(1),
+	"mp3 [directories...]",
+	"Convert opus/flac to mp3 in one or more directories",
+	cobra.MinimumNArgs(1),
 	func(cmd *cobra.Command, args []string) {
-		dir := args[0]
-		logPath := filepath.Join(dir, "conversion_errors.log")
-
-		// create log file
+		// Create a single log file in the current directory for all operations
+		logPath := "conversion_errors.log"
 		logFile, err := shared.CreateFile(logPath)
 		if err != nil {
 			os.Exit(1)
 		}
 		defer shared.CloseFile(logFile)
 
-		// walk and convert
-		_ = filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
-			if err != nil {
-				return err
-			}
-			ext := strings.ToLower(filepath.Ext(info.Name()))
-			if !info.IsDir() && (ext == ".flac" || ext == ".opus") {
-				out := strings.TrimSuffix(path, ext) + ".mp3"
-
-				if _, err := os.Stat(out); err == nil {
-					fmt.Println("Skipping (exists):", out)
-					return nil
+		for _, dir := range args {
+			fmt.Printf("--- Processing directory: %s ---", dir)
+			_ = filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
+				if err != nil {
+					return err
 				}
+				ext := strings.ToLower(filepath.Ext(info.Name()))
+				if !info.IsDir() && (ext == ".flac" || ext == ".opus") {
+					out := strings.TrimSuffix(path, ext) + ".mp3"
 
-				fmt.Println("Converting + embedding cover:", path, "→", out)
-				stderr, convErr := shared.ExecuteCommandWithStderr(
-					"ffmpeg",
-					"-nostdin",
-					"-i", path,
-					"-map", "0:a",
-					"-map", "0:v?",
-					"-c:a", "libmp3lame",
-					"-q:a", "0",
-					"-id3v2_version", "3",
-					"-metadata:s:v", "title=Album cover",
-					"-metadata:s:v", "comment=Cover (front)",
-					out,
-				)
+					if _, err := os.Stat(out); err == nil {
+						fmt.Println("Skipping (exists):", out)
+						return nil
+					}
 
-				if convErr != nil {
-					shared.LogError(logFile, fmt.Sprintf(
-						"Conversion error for %s: %v\nFFmpeg Output:\n%s\n",
-						path, convErr, stderr,
-					))
-					fmt.Printf("Conversion error for %s: %v\nFFmpeg Output:\n%s\n",
+					fmt.Println("Converting + embedding cover:", path, "→", out)
+					stderr, convErr := shared.ExecuteCommandWithStderr(
+						"ffmpeg",
+						"-nostdin",
+						"-i", path,
+						"-map", "0:a",
+						"-map", "0:v?",
+						"-c:a", "libmp3lame",
+						"-q:a", "0",
+						"-id3v2_version", "3",
+						"-metadata:s:v", "title=Album cover",
+						"-metadata:s:v", "comment=Cover (front)",
+						out,
+					)
+
+					if convErr != nil {
+						shared.LogError(logFile, fmt.Sprintf(
+							"Conversion error for %s: %v\nFFmpeg Output:\n%s\n",
+							path, convErr, stderr,
+						))
+						fmt.Printf("Conversion error for %s: %v\nFFmpeg Output:\n%s\n",
 						path, convErr, stderr,
 					)
-					return nil
-				}
+						return nil
+					}
 
-				fi, err := os.Stat(out)
-				if err == nil && fi.Size() > 0 {
-					fmt.Println("Converted:", out)
-					fmt.Println("Deleting source:", path)
-					_ = os.Remove(path)
-				} else {
-					shared.LogError(logFile, fmt.Sprintf(
-						"Conversion failed (zero-size or missing output): %s\n", path,
-					))
-					fmt.Printf("Conversion failed (zero-size or missing output): %s\n", path)
+					fi, err := os.Stat(out)
+					if err == nil && fi.Size() > 0 {
+						fmt.Println("Converted:", out)
+						fmt.Println("Deleting source:", path)
+						_ = os.Remove(path)
+					} else {
+						shared.LogError(logFile, fmt.Sprintf(
+							"Conversion failed (zero-size or missing output): %s\n", path,
+						))
+						fmt.Printf("Conversion failed (zero-size or missing output): %s\n", path)
+					}
 				}
-			}
-			return nil
-		})
+				return nil
+			})
+		}
 
-		fmt.Println("All done! Check conversion_errors.log for any errors.")
+		fmt.Println("\nAll done! Check conversion_errors.log for any errors.")
 	},
 )
 
 var convertPlaylistCmd = shared.NewCommand(
-	"playlist [path/to/.m3u]",
-	"Format a playlist",
-	cobra.ExactArgs(1),
+	"playlist [paths/to/.m3u...]",
+	"Format one or more playlists",
+	cobra.MinimumNArgs(1),
 	func(cmd *cobra.Command, args []string) {
-		playlist := args[0]
+		for _, playlist := range args {
+			fmt.Printf("--- Formatting playlist: %s ---", playlist)
+			f, err := shared.OpenFile(playlist)
+			if err != nil {
+				fmt.Printf("Skipping %s: %v\n", playlist, err)
+				continue
+			}
 
-		f, err := shared.OpenFile(playlist)
-		if err != nil {
-			os.Exit(1)
+			var lines []string
+			scanner := bufio.NewScanner(f)
+			for scanner.Scan() {
+				lines = append(lines, scanner.Text())
+			}
+			shared.CloseFile(f) // Close file after reading
+
+			formatted := FormatPlaylistLines(lines)
+			output := strings.Join(formatted, "\n")
+
+			if err := os.WriteFile(playlist, []byte(output), 0o644); err != nil {
+				fmt.Println("Error writing to file:", err)
+				continue
+			}
+
+			fmt.Printf("'%s' is now Winamp/Ruizu-safe\n", playlist)
 		}
-		defer shared.CloseFile(f)
-
-		var lines []string
-		scanner := bufio.NewScanner(f)
-		for scanner.Scan() {
-			lines = append(lines, scanner.Text())
-		}
-
-		formatted := FormatPlaylistLines(lines)
-		output := strings.Join(formatted, "\n")
-
-		if err := os.WriteFile(playlist, []byte(output), 0o644); err != nil {
-			fmt.Println("Error writing to file:", err)
-			os.Exit(1)
-		}
-
-		fmt.Printf("'%s' is now Winamp/Ruizu-safe\n", playlist)
 	},
 )
-

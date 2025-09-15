@@ -11,13 +11,13 @@ var YTMusicDownloadCmd = shared.NewCommand(
 	cobra.ExactArgs(1),
 	func(cmd *cobra.Command, args []string) {
 		youtubeURL := args[0]
-		shared.ExecuteCommand(
+		shared.CheckErr(shared.ExecuteCommand(
 			"yt-dlp",
 			"--extract-audio",
 			"--embed-thumbnail",
 			"--add-metadata",
 			"-o", "%(title)s.%(ext)s",
 			youtubeURL,
-		)
+		))
 	},
 )

@@ -6,10 +6,12 @@ import (
 )
 
 func init() {
-	TagCmd.AddCommand(tagDeleteLocalCmd)
 	TagCmd.AddCommand(tagCreateCmd)
+	TagCmd.AddCommand(tagDeleteCmd)
 	TagCmd.AddCommand(tagWipeCmd)
-	TagCmd.AddCommand(tagDeleteRemoteCmd)
+
+	tagDeleteCmd.AddCommand(tagDeleteLocalCmd)
+	tagDeleteCmd.AddCommand(tagDeleteRemoteCmd)
 }
 
 var TagCmd = shared.NewCommand(
@@ -27,6 +29,15 @@ var tagCreateCmd = shared.NewCommand(
 	cobra.ExactArgs(3),
 	func(cmd *cobra.Command, args []string) {
 		runGitCommand("tag", "-a", args[1], "-m", args[2], args[0])
+	},
+)
+
+var tagDeleteCmd = shared.NewCommand(
+	"delete",
+	"Delete a local or remote tag",
+	cobra.NoArgs,
+	func(cmd *cobra.Command, args []string) {
+		_ = cmd.Help()
 	},
 )
 
@@ -57,4 +68,3 @@ var tagWipeCmd = shared.NewCommand(
 		runGitCommand("push", "origin", "--delete", args[0])
 	},
 )
-

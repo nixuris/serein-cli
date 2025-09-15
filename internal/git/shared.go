@@ -5,5 +5,5 @@ import (
 )
 
 func runGitCommand(args ...string) {
-	shared.ExecuteCommand("git", args...)
+	shared.CheckErr(shared.ExecuteCommand("git", args...))
 }

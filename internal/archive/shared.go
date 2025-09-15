@@ -31,7 +31,7 @@ func BuildArchiveCommand(archiveName string, targets []string, password string) 
 	cmdArgs = append(cmdArgs, archiveName)
 	cmdArgs = append(cmdArgs, targets...)
 
-	shared.ExecuteCommand("7z", cmdArgs...)
+	shared.CheckErr(shared.ExecuteCommand("7z", cmdArgs...))
 }
 
 func BuildExtractCommand(target string, password string) {
@@ -40,5 +40,5 @@ func BuildExtractCommand(target string, password string) {
 		cmdArgs = append(cmdArgs, "-p"+password)
 	}
 	cmdArgs = append(cmdArgs, target)
-	shared.ExecuteCommand("7z", cmdArgs...)
+	shared.CheckErr(shared.ExecuteCommand("7z", cmdArgs...))
 }

@@ -15,7 +15,7 @@ var ContainerShellCmd = shared.NewCommand(
 	"Start a shell in a container",
 	cobra.ExactArgs(1),
 	func(cmd *cobra.Command, args []string) {
-		RunPodman(BuildShellArgs(args[0], tempShell, shellMount, shellUsb, shellIp), true, "Error starting shell:")
+		RunPodman(BuildShellArgs(args[0], tempShell, shellMount, shellUsb, shellIp), true)
 	},
 )
 
@@ -24,7 +24,7 @@ var ContainerSilentCmd = shared.NewCommand(
 	"Run a container in the background",
 	cobra.ExactArgs(1),
 	func(cmd *cobra.Command, args []string) {
-		RunPodman(BuildDetachedArgs(args[0], silentMount, silentUsb, silentIp), false, "Error running container in background:")
+		RunPodman(BuildDetachedArgs(args[0], silentMount, silentUsb, silentIp), false)
 	},
 )
 

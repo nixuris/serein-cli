@@ -7,44 +7,51 @@ import (
 	"strings"
 )
 
-func ExecuteCommand(command string, args ...string) {
+// prepareCommand handles the DryRun logic and command creation.
+// It returns the command and a boolean indicating whether to proceed.
+func prepareCommand(command string, args ...string) (*exec.Cmd, bool) {
 	if DryRun {
 		fmt.Printf("Executing: %s %s\n", command, strings.Join(args, " "))
-		return
+		return nil, false
+	}
+	return exec.Command(command, args...), true
+}
+
+func ExecuteCommand(command string, args ...string) error {
+	cmd, proceed := prepareCommand(command, args...)
+	if !proceed {
+		return nil
 	}
 
-	cmd := exec.Command(command, args...)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	if err := cmd.Run(); err != nil {
-		fmt.Printf("Error executing '%s %s': %v\n", command, strings.Join(args, " "), err)
-		os.Exit(1)
+		return fmt.Errorf("failed to execute '%s %s': %w", command, strings.Join(args, " "), err)
 	}
+	return nil
 }
 
-func ExecuteCommandWithStdin(command string, args ...string) {
-	if DryRun {
-		fmt.Printf("Executing: %s %s\n", command, strings.Join(args, " "))
-		return
+func ExecuteCommandWithStdin(command string, args ...string) error {
+	cmd, proceed := prepareCommand(command, args...)
+	if !proceed {
+		return nil
 	}
 
-	cmd := exec.Command(command, args...)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	cmd.Stdin = os.Stdin
 	if err := cmd.Run(); err != nil {
-		fmt.Printf("Error executing '%s %s': %v\n", command, strings.Join(args, " "), err)
-		os.Exit(1)
+		return fmt.Errorf("failed to execute with stdin '%s %s': %w", command, strings.Join(args, " "), err)
 	}
+	return nil
 }
 
 func ExecuteCommandWithStderr(command string, args ...string) (string, error) {
-	if DryRun {
-		fmt.Printf("Executing: %s %s\n", command, strings.Join(args, " "))
+	cmd, proceed := prepareCommand(command, args...)
+	if !proceed {
 		return "", nil
 	}
 
-	cmd := exec.Command(command, args...)
 	var stderr strings.Builder
 	cmd.Stderr = &stderr
 	err := cmd.Run()
@@ -52,12 +59,11 @@ func ExecuteCommandWithStderr(command string, args ...string) (string, error) {
 }
 
 func ExecuteCommandWithOutput(command string, args ...string) (string, error) {
-	if DryRun {
-		fmt.Printf("Executing: %s %s\n", command, strings.Join(args, " "))
+	cmd, proceed := prepareCommand(command, args...)
+	if !proceed {
 		return "", nil
 	}
 
-	cmd := exec.Command(command, args...)
 	output, err := cmd.Output()
 	return string(output), err
 }

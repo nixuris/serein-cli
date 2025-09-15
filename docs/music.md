@@ -1,29 +1,40 @@
 ## Music Utilities
 
-### Flags and CLI Input
+This module provides tools for downloading and converting audio files.
 
-*   **Download YouTube audio:**
-    `serein music download [youtube-url]`
+### Usage
 
-*   **Convert audio files to MP3:**
-    `serein music convert mp3 [directory]`
+*   **Download Audio from YouTube:**
+    ```bash
+    serein music download <youtube-url>
+    ```
+    *   This uses `yt-dlp` to download the audio track from a YouTube URL, embedding the thumbnail as cover art and including metadata.
 
-*   **Format a playlist:**
-    `serein music convert playlist [path/to/.m3u]`
+*   **Convert Audio Files to MP3:**
+    ```bash
+    serein music convert mp3 <directory1> [directory2...]
+    ```
+    *   This command searches the specified directories for `.flac` and `.opus` files, converts them to high-quality MP3, embeds cover art, and deletes the source files upon successful conversion.
+
+*   **Format a Playlist:**
+    ```bash
+    serein music convert playlist <path1.m3u> [path2.m3u...]
+    ```
+    *   This formats one or more `.m3u` playlist files to use Windows-style backslashes (`\`) and line endings, required for some hardware audio players.
 
 ### Examples
 
-*   **Download audio from a YouTube URL:**
+*   **Download audio from a YouTube video:**
     ```bash
     serein music download "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
     ```
 
-*   **Convert FLAC/Opus files in a directory to MP3:**
+*   **Convert audio files in multiple directories to MP3:**
     ```bash
-    serein music convert mp3 /path/to/your/music
+    serein music convert mp3 ./flac-albums/ ./opus-downloads/
     ```
 
-*   **Format an M3U playlist for compatibility:**
+*   **Fix multiple playlists for a portable music player:**
     ```bash
-    serein music convert playlist /path/to/your/playlist.m3u
+    serein music convert playlist /media/my-sd-card/rock.m3u /media/my-sd-card/pop.m3u
     ```
