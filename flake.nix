@@ -20,10 +20,10 @@
       pkgs = nixpkgs.legacyPackages.${system};
 
       # Version and download info for stable release
-      stableVersion = "2.0.0";  # Change this
+      stableVersion = "3.0.0";  # Change this
       stableDownload = {
         url = "https://github.com/nixuris/serein-cli/releases/download/v${stableVersion}/serein_${stableVersion}_linux_amd64.tar.gz";
-        sha256 = "1pfnk0zbv1i71s16g42gr5apsbnvwiz0xpj77acajw3kx39j6hd3";  
+        sha256 = "vKPHNDIXz1YC5hbLU88i/vkRHKAO019SyKv9vTnw53w=";
       };
 
       # Source build for test variant
