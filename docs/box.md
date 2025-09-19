@@ -30,15 +30,18 @@ This module provides a set of convenient wrappers around `podman` or `docker` fo
 
 *   **Start an interactive shell in a container:**
     ```bash
-    serein box shell [args...] [image-name]
+    serein box shell [image-name]
     ```
-    You can use flags (`--temp`, `--mount`, `--usb`, `--ip`) or positional arguments (`temp`, `mount`, `usb`, `ip`).
+    *   `--temp` or `-t`: Create a temporary container that is automatically removed on exit.
+    *   `--mount` or `-m`: Mount the current directory into `/mnt` inside the container.
+    *   `--usb` or `-u`: Pass through host USB devices to the container.
+    *   `--ip`: Pass through `usbmuxd` for iOS device communication.
 
 *   **Run a container in the background (detached mode):**
     ```bash
-    serein box silent [args...] [image-name]
+    serein box silent [image-name]
     ```
-    You can use flags (`--mount`, `--usb`, `--ip`) or positional arguments (`mount`, `usb`, `ip`).
+    *   Accepts the same `--mount`, `--usb`, and `--ip` flags as the `shell` command.
 
 #### Container Images
 
@@ -74,7 +77,7 @@ This module provides a set of convenient wrappers around `podman` or `docker` fo
     ```bash
     serein box ios [args...]
     ```
-    You can use flags (`--sidestore`, `--pair`) or positional arguments (`sidestore`, `pair`).
+    You can use flags (`--sidestore`, `--pair`).
 
 ### Examples
 
@@ -93,14 +96,9 @@ This module provides a set of convenient wrappers around `podman` or `docker` fo
     serein box images import my-app.tar
     ```
 
-*   **Run a temporary shell in an Ubuntu container with your current code mounted (using positional arguments):**
+*   **Run a temporary shell in an Ubuntu container:**
     ```bash
-    serein box shell temp mount ubuntu
-    ```
-
-*   **Run a temporary shell in an Ubuntu container with your current code mounted (using flags):**
-    ```bash
-    serein box shell --temp --mount ubuntu
+    serein box shell -t -m ubuntu
     ```
 
 *   **Force the use of docker for a command:**
