@@ -56,7 +56,7 @@ func BuildShellArgs(image string, temp, mount, usb, ip bool) []string {
 	}
 	args = append(args, "-it")
 	args = AppendMountFlags(args, mount, usb, ip)
-	args = append(args, image, "/bin/bash")
+	args = append(args, image, "/bin/sh")
 	return args
 }
 
