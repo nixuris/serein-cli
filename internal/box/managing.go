@@ -1,4 +1,4 @@
-package container
+package box
 
 import (
 	"path/filepath"
@@ -15,7 +15,7 @@ var ContainerBuildCmd = shared.NewCommand(
 	"Build a container image",
 	cobra.ExactArgs(2),
 	func(cmd *cobra.Command, args []string) {
-		RunPodman([]string{"build", "-t", args[0], args[1]}, false)
+		RunContainerCommand([]string{"build", "-t", args[0], args[1]}, false)
 	},
 )
 
@@ -24,7 +24,7 @@ var ContainerDeleteCmd = shared.NewCommand(
 	"Delete a container",
 	cobra.ExactArgs(1),
 	func(cmd *cobra.Command, args []string) {
-		RunPodman([]string{"rm", args[0]}, false)
+		RunContainerCommand([]string{"rm", args[0]}, false)
 	},
 )
 
@@ -33,7 +33,7 @@ var ContainerListCmd = shared.NewCommand(
 	"List all containers",
 	cobra.NoArgs,
 	func(cmd *cobra.Command, args []string) {
-		RunPodman([]string{"ps", "-a"}, false)
+		RunContainerCommand([]string{"ps", "-a"}, false)
 	},
 )
 
@@ -44,7 +44,7 @@ var ContainerExportCmd = shared.NewCommand(
 	func(cmd *cobra.Command, args []string) {
 		containerName := args[0]
 		outputFile := containerName + ".tar"
-		RunPodman([]string{"export", containerName, "-o", outputFile}, false)
+		RunContainerCommand([]string{"export", containerName, "-o", outputFile}, false)
 	},
 )
 
@@ -56,7 +56,7 @@ var ContainerImportCmd = shared.NewCommand(
 		tarPath := args[0]
 		baseName := filepath.Base(tarPath)
 		containerName := strings.TrimSuffix(baseName, filepath.Ext(baseName))
-		RunPodman([]string{"import", tarPath, containerName}, false)
+		RunContainerCommand([]string{"import", tarPath, containerName}, false)
 	},
 )
 
@@ -76,7 +76,7 @@ var containerImagesDeleteCmd = shared.NewCommand(
 	"Delete a container image",
 	cobra.ExactArgs(1),
 	func(cmd *cobra.Command, args []string) {
-		RunPodman([]string{"rmi", args[0]}, false)
+		RunContainerCommand([]string{"rmi", args[0]}, false)
 	},
 )
 
@@ -85,7 +85,7 @@ var containerImagesListCmd = shared.NewCommand(
 	"List all container images",
 	cobra.NoArgs,
 	func(cmd *cobra.Command, args []string) {
-		RunPodman([]string{"images"}, false)
+		RunContainerCommand([]string{"images"}, false)
 	},
 )
 
@@ -99,7 +99,7 @@ var containerImagesExportCmd = shared.NewCommand(
 		safeName := strings.ReplaceAll(imageName, "/", "_")
 		safeName = strings.ReplaceAll(safeName, ":", "-")
 		outputFile := safeName + ".tar"
-		RunPodman([]string{"save", "-o", outputFile, imageName}, false)
+		RunContainerCommand([]string{"save", "-o", outputFile, imageName}, false)
 	},
 )
 
@@ -108,7 +108,7 @@ var containerImagesImportCmd = shared.NewCommand(
 	"Import an image from a tarball",
 	cobra.ExactArgs(1),
 	func(cmd *cobra.Command, args []string) {
-		RunPodman([]string{"load", "-i", args[0]}, false)
+		RunContainerCommand([]string{"load", "-i", args[0]}, false)
 	},
 )
 

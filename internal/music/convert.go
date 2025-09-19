@@ -74,8 +74,8 @@ var convertMp3NewCmd = shared.NewCommand(
 							path, convErr, stderr,
 						))
 						fmt.Printf("Conversion error for %s: %v\nFFmpeg Output:\n%s\n",
-						path, convErr, stderr,
-					)
+							path, convErr, stderr,
+						)
 						return nil
 					}
 

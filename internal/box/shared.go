@@ -1,4 +1,4 @@
-package container
+package box
 
 import (
 	"fmt"
@@ -7,11 +7,28 @@ import (
 	"serein/internal/shared"
 )
 
-func RunPodman(args []string, useStdin bool) {
-	if useStdin {
-		shared.CheckErr(shared.ExecuteCommandWithStdin("podman", args...))
+var ContainerEngine string
+
+func SetContainerEngine(useDocker, usePodman bool) {
+	if useDocker {
+		ContainerEngine = "docker"
+	} else if usePodman {
+		ContainerEngine = "podman"
 	} else {
-		shared.CheckErr(shared.ExecuteCommand("podman", args...))
+		ContainerEngine = DetectContainerEngine()
+	}
+
+	if ContainerEngine == "" {
+		fmt.Println("Error: Neither docker nor podman found in your PATH. Please install one of them.")
+		os.Exit(1)
+	}
+}
+
+func RunContainerCommand(args []string, useStdin bool) {
+	if useStdin {
+		shared.CheckErr(shared.ExecuteCommandWithStdin(ContainerEngine, args...))
+	} else {
+		shared.CheckErr(shared.ExecuteCommand(ContainerEngine, args...))
 	}
 }
 

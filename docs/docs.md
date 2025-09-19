@@ -4,7 +4,7 @@ This document provides detailed usage information for the `serein` CLI tool.
 
 ## Table of Contents
 
-*   [Container Management](container.md)
+*   [Container Management](box.md)
 *   [Music Utilities](music.md)
 *   [Nix System Management](nix.md)
 *   [Archive Operations](archive.md)
