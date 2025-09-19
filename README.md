@@ -131,19 +131,9 @@ If you have a Go environment set up, you can build from source.
     go build -o serein .
     ```
 
-## Usage
+## Prerequisites and Usage:
 
-Serein provides a set of subcommands for different functionalities. For detailed usage, including all flags and examples, please refer to the [full documentation](docs/docs.md).
-
-## Prerequisites
-
-Serein acts as a wrapper for several external tools. For all features to work, ensure the following are available in your system's `PATH`:
-
-*   `podman`: For container management commands.
-*   `ffmpeg`: For audio conversion.
-*   `yt-dlp`: For YouTube audio downloads.
-*   `7z` (p7zip): For archive operations.
-*   `git`: For git commands.
+Serein acts as a wrapper for several external tools. Using which ultimately depends on your own use case, you can either use --dry-run flag to see the backend tools used, or refer to the [documentation](docs/docs.md):
 
 ## Contributing
 
