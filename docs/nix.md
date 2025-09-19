@@ -14,6 +14,11 @@ This module provides helper commands for managing Nix, NixOS, and Home Manager c
     serein nix search <package-name>
     ```
 
+*   **Fetch a package and check its hash:**
+    ```bash
+    serein nix hash <url-to-pkg>
+    ```
+
 *   **Run garbage collection to clean the Nix store:**
     ```bash
     serein nix clean
@@ -71,6 +76,10 @@ These commands manage the user-level configuration for Home Manager.
 *   **Update all flake inputs for a project:**
     ```bash
     serein nix update
+    ```
+*   **Fetch a package and check its hash:**
+    ```bash
+    serein nix hash https://github.com/nixuris/serein-cli/releases/download/v3.0.0/serein_3.0.0_linux_amd64.tar.gz
     ```
 
 *   **Build the NixOS configuration from `/etc/nixos`:**
