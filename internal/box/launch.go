@@ -63,7 +63,15 @@ var ShellResumeCmd = shared.NewCommand(
 	cobra.ExactArgs(1),
 	func(cmd *cobra.Command, args []string) {
 		containerName := args[0]
-		RunContainerCommand(BuildShellResumeArgs(containerName, resumeShell), true)
+
+		if resumeShell != "sh" {
+			// Custom shell specified - use exec mode with watcher
+			RunContainerCommand(BuildDetachedResumeArgs(containerName), false)
+			RunShellWithWatcher(containerName, resumeShell)
+		} else {
+			// Default shell - use simple attach mode
+			RunContainerCommand(BuildShellAttachArgs(containerName), true)
+		}
 	},
 )
 
@@ -111,8 +119,8 @@ func init() {
 	ShellCreateCmd.Flags().StringVarP(&shellName, "name", "n", "", "Assign a name to the container")
 	ShellCreateCmd.Flags().StringVarP(&shell, "shell", "s", "sh", "Specify the shell to use")
 
-	// Shell Resume flags (only shell flag)
-	ShellResumeCmd.Flags().StringVarP(&resumeShell, "shell", "s", "sh", "Specify the shell to use")
+	// Shell Resume flags (custom shell gets auto-stop watcher)
+	ShellResumeCmd.Flags().StringVarP(&resumeShell, "shell", "s", "sh", "Specify the shell to use (auto-stops container on exit)")
 
 	// Silent Create flags
 	SilentCreateCmd.Flags().BoolVarP(&silentMount, "mount", "m", false, "Mount current directory to /mnt")
