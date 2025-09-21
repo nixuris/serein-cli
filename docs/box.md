@@ -21,6 +21,11 @@ This module provides a set of convenient wrappers around `podman` or `docker` fo
     serein box rename <old_name> <new_name>
     ```
 
+*   **Stop a container:**
+    ```bash
+    serein box stop <name>
+    ```
+
 *   **Export a container to a tarball:**
     ```bash
     serein box export <name>
@@ -35,21 +40,37 @@ This module provides a set of convenient wrappers around `podman` or `docker` fo
     *   `--name` or `-n`: Assign a name to the imported container.
 
 *   **Start an interactive shell in a container:**
-    ```bash
-    serein box shell [flags] <image>
-    ```
-    *   `--name` or `-n`: Assign a name to the container.
-    *   `--temp` or `-t`: Create a temporary container that is automatically removed on exit.
-    *   `--mount` or `-m`: Mount the current directory into `/mnt` inside the container.
-    *   `--usb` or `-u`: Pass through host USB devices to the container.
-    *   `--ip`: Pass through `usbmuxd` for iOS device communication.
+    *   **Create a new container and run a shell:**
+        ```bash
+        serein box shell create [flags] <image>
+        ```
+        *   `--name` or `-n`: Assign a name to the container.
+        *   `--temp` or `-t`: Create a temporary container that is automatically removed on exit.
+        *   `--mount` or `-m`: Mount the current directory into `/mnt` inside the container.
+        *   `--usb` or `-u`: Pass through host USB devices to the container.
+        *   `--ip`: Pass through `usbmuxd` for iOS device communication.
+        *   `--shell` or `-s`: Specify the shell to use (default: `sh`).
+
+    *   **Resume a shell in an existing container:**
+        ```bash
+        serein box shell resume <container>
+        ```
+        *   `--shell` or `-s`: Specify the shell to use (default: `sh`).
 
 *   **Run a container in the background (detached mode):**
-    ```bash
-    serein box silent [flags] <image>
-    ```
-    *   `--name` or `-n`: Assign a name to the container.
-    *   Accepts the same `--mount`, `--usb`, and `--ip` flags as the `shell` command.
+    *   **Create a new container in the background:**
+        ```bash
+        serein box silent create [flags] <image>
+        ```
+        *   `--name` or `-n`: Assign a name to the container.
+        *   `--mount` or `-m`: Mount the current directory into `/mnt` inside the container.
+        *   `--usb` or `-u`: Pass through host USB devices to the container.
+        *   `--ip`: Pass through `usbmuxd` for iOS device communication.
+
+    *   **Resume an existing container in the background:**
+        ```bash
+        serein box silent resume <container>
+        ```
 
 #### Container Images
 
@@ -111,7 +132,7 @@ This module provides a set of convenient wrappers around `podman` or `docker` fo
 
 *   **Run a temporary shell in an Ubuntu container and name it `my-ubuntu`:**
     ```bash
-    serein box shell -t -m -n my-ubuntu ubuntu
+    serein box shell create -t -m -n my-ubuntu ubuntu
     ```
 
 *   **Force the use of docker for a command:**

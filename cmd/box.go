@@ -20,8 +20,8 @@ func init() {
 	box.StandaloneFlags(boxCmd)
 	boxCmd.AddCommand(box.ContainerImagesCmd)
 	boxCmd.AddCommand(box.ContainerIosCmd)
-	boxCmd.AddCommand(box.ContainerShellCmd)
-	boxCmd.AddCommand(box.ContainerSilentCmd)
+	boxCmd.AddCommand(box.ShellCmd)
+	boxCmd.AddCommand(box.SilentCmd)
 }
 
 var boxCmd = &cobra.Command{

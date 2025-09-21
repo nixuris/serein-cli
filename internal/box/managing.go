@@ -74,6 +74,15 @@ var ContainerRenameCmd = shared.NewCommand(
 	},
 )
 
+var ContainerStopCmd = shared.NewCommand(
+	"stop <name>",
+	"Stop a container",
+	cobra.ExactArgs(1),
+	func(cmd *cobra.Command, args []string) {
+		RunContainerCommand([]string{"stop", args[0]}, false)
+	},
+)
+
 // Container Images Commands
 
 var ContainerImagesCmd = shared.NewCommand(
@@ -142,6 +151,7 @@ func StandaloneFlags(parent *cobra.Command) {
 	parent.AddCommand(ContainerExportCmd)
 	parent.AddCommand(ContainerImportCmd)
 	parent.AddCommand(ContainerRenameCmd)
+	parent.AddCommand(ContainerStopCmd)
 }
 
 func init() {

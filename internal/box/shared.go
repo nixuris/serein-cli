@@ -49,7 +49,7 @@ func AppendMountFlags(base []string, mount, usb, ip bool) []string {
 	return base
 }
 
-func BuildShellArgs(image string, temp, mount, usb, ip bool, name string) []string {
+func BuildShellCreateArgs(image string, temp, mount, usb, ip bool, name, shell string) []string {
 	args := []string{"run"}
 	if temp {
 		args = append(args, "--rm")
@@ -59,11 +59,15 @@ func BuildShellArgs(image string, temp, mount, usb, ip bool, name string) []stri
 	}
 	args = append(args, "-it")
 	args = AppendMountFlags(args, mount, usb, ip)
-	args = append(args, image, "/bin/sh")
+	args = append(args, image, "/bin/"+shell)
 	return args
 }
 
-func BuildDetachedArgs(image string, mount, usb, ip bool, name string) []string {
+func BuildShellResumeArgs(container string, shell string) []string {
+	return []string{"exec", "-it", container, "/bin/" + shell}
+}
+
+func BuildDetachedCreateArgs(image string, mount, usb, ip bool, name string) []string {
 	args := []string{"run", "-d"}
 	if name != "" {
 		args = append(args, "--name", name)
@@ -71,6 +75,10 @@ func BuildDetachedArgs(image string, mount, usb, ip bool, name string) []string 
 	args = AppendMountFlags(args, mount, usb, ip)
 	args = append(args, image)
 	return args
+}
+
+func BuildDetachedResumeArgs(container string) []string {
+	return []string{"start", container}
 }
 
 func BuildIOSArgs(image string, pair bool) []string {

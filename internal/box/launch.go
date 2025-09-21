@@ -9,14 +9,35 @@ import (
 
 var tempShell bool
 var shellMount, shellUsb, shellIp bool
-var shellName string
+var shellName, shell string
 
 var silentMount, silentUsb, silentIp bool
 var silentName string
 
-var ContainerShellCmd = shared.NewCommand(
-	"shell [flags] <image>",
-	"Start a shell in a container. See flags for options.",
+// Resume command variables (separate from create to avoid conflicts)
+var resumeShell string
+
+var ShellCmd = &cobra.Command{
+	Use:   "shell",
+	Short: "Run a shell in a container",
+	Long:  `Run a shell in a container.`,
+	Run: func(cmd *cobra.Command, args []string) {
+		_ = cmd.Help()
+	},
+}
+
+var SilentCmd = &cobra.Command{
+	Use:   "silent",
+	Short: "Run a container in the background",
+	Long:  `Run a container in the background.`,
+	Run: func(cmd *cobra.Command, args []string) {
+		_ = cmd.Help()
+	},
+}
+
+var ShellCreateCmd = shared.NewCommand(
+	"create [flags] <image>",
+	"Create a shell in a new container. See flags for options.",
 	cobra.MinimumNArgs(1),
 	func(cmd *cobra.Command, args []string) {
 		imageName := args[len(args)-1]
@@ -32,13 +53,23 @@ var ContainerShellCmd = shared.NewCommand(
 				shellIp = true
 			}
 		}
-		RunContainerCommand(BuildShellArgs(imageName, tempShell, shellMount, shellUsb, shellIp, shellName), true)
+		RunContainerCommand(BuildShellCreateArgs(imageName, tempShell, shellMount, shellUsb, shellIp, shellName, shell), true)
 	},
 )
 
-var ContainerSilentCmd = shared.NewCommand(
-	"silent [flags] <image>",
-	"Run a container in the background. See flags for options.",
+var ShellResumeCmd = shared.NewCommand(
+	"resume <container>",
+	"Resume a shell in an existing container.",
+	cobra.ExactArgs(1),
+	func(cmd *cobra.Command, args []string) {
+		containerName := args[0]
+		RunContainerCommand(BuildShellResumeArgs(containerName, resumeShell), true)
+	},
+)
+
+var SilentCreateCmd = shared.NewCommand(
+	"create [flags] <image>",
+	"Create a container in the background. See flags for options.",
 	cobra.MinimumNArgs(1),
 	func(cmd *cobra.Command, args []string) {
 		imageName := args[len(args)-1]
@@ -52,19 +83,42 @@ var ContainerSilentCmd = shared.NewCommand(
 				silentIp = true
 			}
 		}
-		RunContainerCommand(BuildDetachedArgs(imageName, silentMount, silentUsb, silentIp, silentName), false)
+		RunContainerCommand(BuildDetachedCreateArgs(imageName, silentMount, silentUsb, silentIp, silentName), false)
+	},
+)
+
+var SilentResumeCmd = shared.NewCommand(
+	"resume <container>",
+	"Resume an existing container in the background.",
+	cobra.ExactArgs(1),
+	func(cmd *cobra.Command, args []string) {
+		containerName := args[0]
+		RunContainerCommand(BuildDetachedResumeArgs(containerName), false)
 	},
 )
 
 func init() {
-	ContainerShellCmd.Flags().BoolVarP(&tempShell, "temp", "t", false, "Use a temporary container")
-	ContainerShellCmd.Flags().BoolVarP(&shellMount, "mount", "m", false, "Mount current directory to /mnt")
-	ContainerShellCmd.Flags().BoolVarP(&shellUsb, "usb", "u", false, "Passthrough USB devices")
-	ContainerShellCmd.Flags().BoolVar(&shellIp, "ip", false, "Passthrough usbmuxd for iPhone")
-	ContainerShellCmd.Flags().StringVarP(&shellName, "name", "n", "", "Assign a name to the container")
+	ShellCmd.AddCommand(ShellCreateCmd)
+	ShellCmd.AddCommand(ShellResumeCmd)
+	SilentCmd.AddCommand(SilentCreateCmd)
+	SilentCmd.AddCommand(SilentResumeCmd)
 
-	ContainerSilentCmd.Flags().BoolVarP(&silentMount, "mount", "m", false, "Mount current directory to /mnt")
-	ContainerSilentCmd.Flags().BoolVarP(&silentUsb, "usb", "u", false, "Passthrough USB devices")
-	ContainerSilentCmd.Flags().BoolVar(&silentIp, "ip", false, "Passthrough usbmuxd for iPhone")
-	ContainerSilentCmd.Flags().StringVarP(&silentName, "name", "n", "", "Assign a name to the container")
+	// Shell Create flags
+	ShellCreateCmd.Flags().BoolVarP(&tempShell, "temp", "t", false, "Use a temporary container")
+	ShellCreateCmd.Flags().BoolVarP(&shellMount, "mount", "m", false, "Mount current directory to /mnt")
+	ShellCreateCmd.Flags().BoolVarP(&shellUsb, "usb", "u", false, "Passthrough USB devices")
+	ShellCreateCmd.Flags().BoolVar(&shellIp, "ip", false, "Passthrough usbmuxd for iPhone")
+	ShellCreateCmd.Flags().StringVarP(&shellName, "name", "n", "", "Assign a name to the container")
+	ShellCreateCmd.Flags().StringVarP(&shell, "shell", "s", "sh", "Specify the shell to use")
+
+	// Shell Resume flags (only shell flag)
+	ShellResumeCmd.Flags().StringVarP(&resumeShell, "shell", "s", "sh", "Specify the shell to use")
+
+	// Silent Create flags
+	SilentCreateCmd.Flags().BoolVarP(&silentMount, "mount", "m", false, "Mount current directory to /mnt")
+	SilentCreateCmd.Flags().BoolVarP(&silentUsb, "usb", "u", false, "Passthrough USB devices")
+	SilentCreateCmd.Flags().BoolVar(&silentIp, "ip", false, "Passthrough usbmuxd for iPhone")
+	SilentCreateCmd.Flags().StringVarP(&silentName, "name", "n", "", "Assign a name to the container")
+
+	// Silent Resume has no flags (containers resume with original settings)
 }
