@@ -79,7 +79,7 @@ var ContainerStopCmd = shared.NewCommand(
 	"Stop a container",
 	cobra.ExactArgs(1),
 	func(cmd *cobra.Command, args []string) {
-		RunContainerCommand([]string{"stop", args[0]}, false)
+		RunContainerCommand([]string{"stop", "-t", "1", args[0]}, false)
 	},
 )
 

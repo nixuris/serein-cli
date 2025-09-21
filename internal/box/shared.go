@@ -74,7 +74,7 @@ func RunShellWithWatcher(container string, shell string) {
 
 	// Debug: always try to stop, regardless of error
 	fmt.Printf("Shell exited, stopping container %s...\n", container)
-	stopArgs := []string{"stop", container}
+	stopArgs := []string{"stop", "-t", "1", container}
 	stopErr := shared.ExecuteCommand(ContainerEngine, stopArgs...)
 
 	if stopErr != nil {
