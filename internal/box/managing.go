@@ -48,15 +48,29 @@ var ContainerExportCmd = shared.NewCommand(
 	},
 )
 
+var importName string
+
 var ContainerImportCmd = shared.NewCommand(
 	"import <path-to-tar>",
 	"Import a container from a tarball",
 	cobra.ExactArgs(1),
 	func(cmd *cobra.Command, args []string) {
 		tarPath := args[0]
-		baseName := filepath.Base(tarPath)
-		containerName := strings.TrimSuffix(baseName, filepath.Ext(baseName))
+		containerName := importName
+		if containerName == "" {
+			baseName := filepath.Base(tarPath)
+			containerName = strings.TrimSuffix(baseName, filepath.Ext(baseName))
+		}
 		RunContainerCommand([]string{"import", tarPath, containerName}, false)
+	},
+)
+
+var ContainerRenameCmd = shared.NewCommand(
+	"rename <old_name> <new_name>",
+	"Rename a container",
+	cobra.ExactArgs(2),
+	func(cmd *cobra.Command, args []string) {
+		RunContainerCommand([]string{"rename", args[0], args[1]}, false)
 	},
 )
 
@@ -112,12 +126,22 @@ var containerImagesImportCmd = shared.NewCommand(
 	},
 )
 
+var containerImagesRenameCmd = shared.NewCommand(
+	"rename <old_name> <new_name>",
+	"Rename an image using tag",
+	cobra.ExactArgs(2),
+	func(cmd *cobra.Command, args []string) {
+		RunContainerCommand([]string{"tag", args[0], args[1]}, false)
+	},
+)
+
 func StandaloneFlags(parent *cobra.Command) {
 	parent.AddCommand(ContainerBuildCmd)
 	parent.AddCommand(ContainerDeleteCmd)
 	parent.AddCommand(ContainerListCmd)
 	parent.AddCommand(ContainerExportCmd)
 	parent.AddCommand(ContainerImportCmd)
+	parent.AddCommand(ContainerRenameCmd)
 }
 
 func init() {
@@ -125,4 +149,7 @@ func init() {
 	ContainerImagesCmd.AddCommand(containerImagesListCmd)
 	ContainerImagesCmd.AddCommand(containerImagesExportCmd)
 	ContainerImagesCmd.AddCommand(containerImagesImportCmd)
+	ContainerImagesCmd.AddCommand(containerImagesRenameCmd)
+
+	ContainerImportCmd.Flags().StringVarP(&importName, "name", "n", "", "Assign a name to the imported container")
 }

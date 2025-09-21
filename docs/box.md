@@ -16,6 +16,11 @@ This module provides a set of convenient wrappers around `podman` or `docker` fo
     serein box delete [container-name]
     ```
 
+*   **Rename a container:**
+    ```bash
+    serein box rename <old_name> <new_name>
+    ```
+
 *   **Export a container to a tarball:**
     ```bash
     serein box export <name>
@@ -27,11 +32,13 @@ This module provides a set of convenient wrappers around `podman` or `docker` fo
     serein box import <path-to-tar>
     # Creates a container with a name derived from the tar file
     ```
+    *   `--name` or `-n`: Assign a name to the imported container.
 
 *   **Start an interactive shell in a container:**
     ```bash
-    serein box shell [image-name]
+    serein box shell [flags] <image>
     ```
+    *   `--name` or `-n`: Assign a name to the container.
     *   `--temp` or `-t`: Create a temporary container that is automatically removed on exit.
     *   `--mount` or `-m`: Mount the current directory into `/mnt` inside the container.
     *   `--usb` or `-u`: Pass through host USB devices to the container.
@@ -39,8 +46,9 @@ This module provides a set of convenient wrappers around `podman` or `docker` fo
 
 *   **Run a container in the background (detached mode):**
     ```bash
-    serein box silent [image-name]
+    serein box silent [flags] <image>
     ```
+    *   `--name` or `-n`: Assign a name to the container.
     *   Accepts the same `--mount`, `--usb`, and `--ip` flags as the `shell` command.
 
 #### Container Images
@@ -58,6 +66,11 @@ This module provides a set of convenient wrappers around `podman` or `docker` fo
 *   **Delete an image:**
     ```bash
     serein box images delete [image-id]
+    ```
+
+*   **Rename an image:**
+    ```bash
+    serein box images rename <old_name> <new_name>
     ```
 
 *   **Export an image to a tarball:**
@@ -96,9 +109,9 @@ This module provides a set of convenient wrappers around `podman` or `docker` fo
     serein box images import my-app.tar
     ```
 
-*   **Run a temporary shell in an Ubuntu container:**
+*   **Run a temporary shell in an Ubuntu container and name it `my-ubuntu`:**
     ```bash
-    serein box shell -t -m ubuntu
+    serein box shell -t -m -n my-ubuntu ubuntu
     ```
 
 *   **Force the use of docker for a command:**

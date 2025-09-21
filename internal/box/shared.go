@@ -49,10 +49,13 @@ func AppendMountFlags(base []string, mount, usb, ip bool) []string {
 	return base
 }
 
-func BuildShellArgs(image string, temp, mount, usb, ip bool) []string {
+func BuildShellArgs(image string, temp, mount, usb, ip bool, name string) []string {
 	args := []string{"run"}
 	if temp {
 		args = append(args, "--rm")
+	}
+	if name != "" {
+		args = append(args, "--name", name)
 	}
 	args = append(args, "-it")
 	args = AppendMountFlags(args, mount, usb, ip)
@@ -60,8 +63,11 @@ func BuildShellArgs(image string, temp, mount, usb, ip bool) []string {
 	return args
 }
 
-func BuildDetachedArgs(image string, mount, usb, ip bool) []string {
+func BuildDetachedArgs(image string, mount, usb, ip bool, name string) []string {
 	args := []string{"run", "-d"}
+	if name != "" {
+		args = append(args, "--name", name)
+	}
 	args = AppendMountFlags(args, mount, usb, ip)
 	args = append(args, image)
 	return args
